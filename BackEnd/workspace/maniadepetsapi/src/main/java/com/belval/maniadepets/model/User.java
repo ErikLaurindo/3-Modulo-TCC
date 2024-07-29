@@ -15,7 +15,7 @@ public class User {
 	
 	//Atributos
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "User_id") 
 	private Integer userId;
 	

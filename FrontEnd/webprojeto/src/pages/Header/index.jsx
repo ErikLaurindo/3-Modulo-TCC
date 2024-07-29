@@ -11,10 +11,9 @@ function Header(){
                
                 <Link to={"/"} className="Home">Home</Link>
                 <Link to={"/usuario"} className="Cadastro">Faça seu Cadastro</Link>
-                <Link to={"/listausuario"} className="Cadastro">lista usuario</Link>
                 <Link to={"/duvidas"} className="Dúvidas">Dúvidas</Link>
                 <Link to={"/parcerias"} className="Parcerias">Parcerias</Link>
-                <Link to={"/Contatos"} className="Contatos">Contatos</Link>
+          
             </header>
 
     )

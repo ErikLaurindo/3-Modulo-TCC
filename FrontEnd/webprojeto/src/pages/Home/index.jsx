@@ -19,7 +19,7 @@ import imagem11 from './imagens/cadastrarse.jpg';
 import imagem12 from './imagens/mobileagendamentos.png';
 import imagem13 from './imagens/mobileconsultas.png';
 import imagem14 from './imagens/mobileandamentoaovivo.png';
-import imagem15 from './imagens/mobilecontato.png';
+import imagem15 from './imagens/dogecat.png';
 import imagem16 from './imagens/parceiro10.jpeg';
 import imagem17 from './imagens/parceiro1.jpeg';
 import imagem18 from './imagens/parceiro2.jpeg';
@@ -39,7 +39,7 @@ function Home() {
 
     return (
 
-        <div className="divpai">
+        <div className="divpaii">
             <div className="divparteum">
                 <center> <h1 className="textoum">O app feito para você cuidar ainda melhor dos seus pets!</h1>
                     <  Link to="/usuario" className="logoum"><img src={imagem11} className="cadastrar" /> </Link>

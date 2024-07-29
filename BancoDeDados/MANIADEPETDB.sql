@@ -1,135 +1,259 @@
-USE MASTER IF EXISTS(SELECT * FROM SYS.databases WHERE NAME = 'MANIADEPETDB')
-DROP DATABASE MANIADEPETDB
+USE MASTER IF EXISTS(SELECT * FROM SYS.databases WHERE NAME = 'MANIADEPET')
+
+DROP DATABASE MANIADEPET
+
 GO
+ 
+CREATE DATABASE MANIADEPET
 
-CREATE DATABASE MANIADEPETDB
 GO
+ 
+USE MANIADEPET
 
-USE MANIADEPETDB
 GO
-
-
+ 
+ 
 CREATE TABLE Users (
+
     User_Id INT PRIMARY KEY IDENTITY(1,1),
+
     User_Name VARCHAR(65),
+
     User_Senha VARCHAR (15),
+
     User_Email VARCHAR (70),
+
     User_Nasc DATE,
+
     User_Genero VARCHAR(50)
+
 );
 
-CREATE TABLE Info_Pet ( 
-Pet_Id INT PRIMARY KEY IDENTITY(1,1),
-Inf_Especie	Varchar(50),	
-Inf_Raca Varchar(50),
-Inf_Cor	Varchar(50),	
-Inf Varchar(50),	
-Inf_DataNasc Date,	
-Inf_peso INT,
-User_Id INT,
-FOREIGN KEY (User_ID) REFERENCES USERS(User_Id)
-);
-
--- Tabela de agenda de visitas
-CREATE TABLE Agen_Vis (
-    Agen_Id INT PRIMARY KEY IDENTITY(1,1),
-    Agen_Histo VARCHAR(65),
-    Agen_Tipo VARCHAR(65),
-    Agen_DataAgen DATE,
-    Agen_Lembre DATETIME,
-	Pet_Id INT,
-	FOREIGN KEY (Pet_Id) REFERENCES Info_Pet (Pet_Id)
-);
-
--- Tabela de funcionários
-CREATE TABLE Funcionario (
-    Fun_Id INT PRIMARY KEY IDENTITY(1,1),
-    Fun_Name VARCHAR(65),
-    Fun_Nasc DATE,
-    Fun_Genero VARCHAR (20),
-    Fun_Ende VARCHAR(65),
-    Fun_Num INT,
-    Fun_Email VARCHAR(50),
-	Agen_Id INT ,
-	FOREIGN KEY (Agen_Id) REFERENCES Agen_Vis(Agen_Id)
-);
-
--- Tabela de notas e observações
-CREATE TABLE Nota_Obs (
-    Id_Notas INT PRIMARY KEY IDENTITY(1,1),
-    tipoNotas VARCHAR(65),
-    DataNota DATE,
-    Obs_gerais TEXT,
-    Obs_SobreAni TEXT,
-    Obs_Instru TEXT,
-	Agen_Id INT,
-	FOREIGN KEY (Agen_Id) REFERENCES Agen_Vis(Agen_Id)
-);
-
--- Tabela de imagens e documentos
-CREATE TABLE Imagem_Doc (
-    ImageDocuId INT PRIMARY KEY IDENTITY(1,1),
-    AnimalId INT,
-    TipoDocument VARCHAR(50),
-    NomeArquivo VARCHAR(100),
-    CaminhoArquivo VARCHAR(255),
-	Agen_Id INT,
-	FOREIGN KEY (Agen_Id) REFERENCES Agen_Vis(Agen_Id)
-);
-
-
-INSERT INTO USERS VALUES ('KITTY WAYNE','070415','KITTYWAY@GMAIL.COM','11-08-2006','FEMININO');
-INSERT INTO USERS VALUES ('JOAO SOARES', 'SOARES7', 'JOAOSOARES@GMAL.COM', '23-02-2006','MASCULINO'); 
-INSERT INTO USERS VALUES ('LUIZ GUSTAVO ALVES', '0705200817','A60K109@GMAIL.COM','07-05-2007','MASCULINO'); 
-INSERT INTO USERS VALUES ('LUCAS','12345678','LUCASHENRI@GMAIL.COM','14-06-1979','MASCULINO'); 
-INSERT INTO USERS VALUES ('LAIS LOTUS','LA16012008@','00001133102918SP@AL.EDUCACAO.SP.GOV.BR','16-01-2008','FEMININO'); 
-INSERT INTO USERS VALUES ('JULIN ENTORTOR','EUTEAMOMAE','DICKJACKSON@GMAIL.COM','06-06-2006','TRANSGENERO'); 
-INSERT INTO USERS VALUES ('JACK','31081979','J@GMAIL.COM','31-08-1979','MASCULINO'); 
-INSERT INTO USERS VALUES ('GABRIEL','TIMAO25163','GABRIELOMAISGAY@GMAIL.COM','30-03-2005','NAO BINARIO'); 
-INSERT INTO USERS VALUES ('FRANK OCEAN','ILOVELIFE','FRANKOCEAN@GMAIL.COM','11-01-2001','TRANSGENERO');
-INSERT INTO USERS VALUES ('Maria', 'outra_senha', 'maria@email.com', '1985-08-20', 'Feminino');
-INSERT INTO USERS VALUES ('Pedro', 'senha_secreta', 'pedro@email.com', '1995-03-10', 'Masculino');
-INSERT INTO USERS VALUES ('Vitinho','matematica123','vitnholopes@gmail.com','22-09-2004','Homem');
-
----ATUALIZEI O USER, NO CASO O GENERO
-UPDATE USERS
-SET uSER_gENERO = 'MASCULINO'
-WHERE USER_ID = 2 
-
-UPDATE USERS 
-SET USER_SENHA = '12345678'
-WHERE USER_ID = 4
-
-UPDATE USERS 
-SET USER_GENERO = 'MASCULINO'
-WHERE USER_ID = 7
-
---APAGUEI UMA TABELA Q ESTAVA A MAIS E IGUAL
-DELETE FROM USERS WHERE USER_ID = 6
 
 SELECT * FROM Users
+ 
+ALTER TABLE USERS
 
-INSERT INTO Funcionario VALUES ('KItty Wayne','11-08-2000','Feminino','Barueri-SP','11953610244','KittyWay11@gmail.com',null);
-INSERT INTO Funcionario VALUES ('João Lucas','25-05-1972','Masculino','Carapicuiba-SP','11947826699','JoaoLucas@gmail.com',null);
-INSERT INTO Funcionario VALUES ('Luan Henrique','02-05-2001','Masculino','Barueri-SP','11971699455','Luancaterin@Iclod.com', null);
-INSERT INTO Funcionario VALUES ('Marianne Costa','01-11-1995','Feminino','Alphaville-SP','11941558878', 'marianegatinha@hotmaill.com', null);
-INSERT INTO Funcionario VALUES ('Julia Catrina','04-05-1971','Feminino','Jandira-SP','11947458865','Juliastre@gmail.com',null);
-INSERT INTO Funcionario VALUES ('Victor Lopes','02-02-1992','Masculino','Barueri-SP','11942455295','lopesgatrup@gmail.com',null);
-INSERT INTO Funcionario VALUES ('Laurindo Cruz','11-12-2000','Masculino','Barueri-SP','62945852566','cruzxpso@gmail.com',null);
-INSERT INTO Funcionario VALUES ('Rony Cabral','25-09-2000','Masculino','Barueri-SP','11925657848','cabralprodutor@gmail.com',null);
-INSERT INTO Funcionario VALUES ('Katherine Mello','04-05-2004','Feminino','Alphaville','11842586699','mellovictin@gmail.com',null);
-INSERT INTO Funcionario VALUES ('Carine Viliy','02-07-1978','Feminino','Osasco','11971694166','fofolete@gmail.com',null);
+ADD CONSTRAINT TIPO_DE_GENERO
 
+CHECK (User_Genero IN ('F', 'M'));
+ 
+CREATE TABLE Info_Pet ( 
+
+Pet_Id INT PRIMARY KEY IDENTITY(1,1),
+
+Inf_Especie	Varchar(50),	
+
+Inf_Raca Varchar(50),
+
+Inf_Cor	Varchar(50),	
+
+Inf Varchar(50),	
+
+Inf_DataNasc Date,	
+
+Inf_peso DECIMAL,
+
+User_Id INT,
+
+FOREIGN KEY (User_ID) REFERENCES USERS(User_Id)
+
+);
+ 
+-- Tabela de agenda de visitas
+
+CREATE TABLE Agen_Vis (
+
+    Agen_Id INT PRIMARY KEY IDENTITY(1,1),
+
+    Agen_Tipo VARCHAR(65),
+
+    Agen_DataAgen DATE,
+
+	Pet_Id INT,
+
+	FOREIGN KEY (Pet_Id) REFERENCES Info_Pet (Pet_Id)
+
+);
+ 
+-- Tabela de funcionários
+
+CREATE TABLE Funcionario (
+
+    Fun_Id INT PRIMARY KEY IDENTITY(1,1),
+
+    Fun_Name VARCHAR(65),
+
+    Fun_Nasc DATE,
+
+    Fun_Genero VARCHAR (1),
+
+    Fun_Ende VARCHAR(65),
+
+    Fun_Num VARCHAR(15),
+
+    Fun_Email VARCHAR(50),
+
+	Agen_Id INT ,
+
+	FOREIGN KEY (Agen_Id) REFERENCES Agen_Vis(Agen_Id)
+
+);
+ 
+ALTER TABLE Funcionario 
+
+ADD CONSTRAINT TIPOS_DE_GENEROS 
+
+CHECK (Fun_Genero IN ('F', 'M'));
+ 
+-- Tabela de notas e observações
+
+CREATE TABLE Nota_Obs (
+
+    Id_Notas INT PRIMARY KEY IDENTITY(1,1),
+
+    tipoNotas INT,
+
+    DataNota DATE,
+
+    Obs_gerais VARCHAR(500),
+
+	Agen_Id INT,
+
+	FOREIGN KEY (Agen_Id) REFERENCES Agen_Vis(Agen_Id)
+
+);
+ 
+-- Tabela de imagens e documentos
+
+CREATE TABLE Imagem_Doc (
+
+    ImageDocuId INT PRIMARY KEY IDENTITY(1,1),
+
+    AnimalId INT,
+
+    TipoDocument VARCHAR(50),
+
+    NomeArquivo VARCHAR(100),
+
+	Agen_Id INT,
+
+	FOREIGN KEY (Agen_Id) REFERENCES Agen_Vis(Agen_Id)
+
+);
+ 
+ALTER TABLE Imagem_Doc
+
+ADD CONSTRAINT APENAS_NUMEROS
+
+CHECK (NomeArquivo NOT LIKE '%[^0-9]%');
+
+INSERT INTO USERS VALUES ('KITTY WAYNE','070415','KITTYWAY@GMAIL.COM','11-08-2006','F');
+INSERT INTO USERS VALUES ('JOAO SOARES', 'SOARES7', 'JOAOSOARES@GMAL.COM', '23-02-2006','M'); 
+INSERT INTO USERS VALUES ('LUIZ GUSTAVO ALVES', '0705200817','A60K109@GMAIL.COM','07-05-2007','M'); 
+INSERT INTO USERS VALUES ('LUCAS','12345678','LUCASHENRI@GMAIL.COM','14-06-1979','M'); 
+INSERT INTO USERS VALUES ('LAIS LOTUS','LA16012008@','00001133102918SP@AL.EDUCACAO.SP.GOV.BR','16-01-2008','F'); 
+INSERT INTO USERS VALUES ('JULIN ENTORTOR','EUTEAMOMAE','DICKJACKSON@GMAIL.COM','06-06-2006','F'); 
+INSERT INTO USERS VALUES ('JACK','31081979','J@GMAIL.COM','31-08-1979','M'); 
+INSERT INTO USERS VALUES ('GABRIEL','TIMAO25163','GABRIELOMAISGAY@GMAIL.COM','30-03-2005','M'); 
+INSERT INTO USERS VALUES ('FRANK OCEAN','ILOVELIFE','FRANKOCEAN@GMAIL.COM','11-01-2001','F');
+INSERT INTO USERS VALUES ('Maria', 'outra_senha', 'maria@email.com', '1985-08-20', 'F');
+INSERT INTO USERS VALUES ('Pedro', 'senha_secreta', 'pedro@email.com', '1995-03-10', 'M');
+INSERT INTO USERS VALUES ('Vitinho','matematica123','vitnholopes@gmail.com','22-09-2004','M');
+ 
+---ATUALIZEI O USER, NO CASO O GENERO
+--UPDATE USERS
+--SET uSER_gENERO = 'MASCULINO'
+--WHERE USER_ID = 2
+ 
+---------------------------------------------------------------------------------------------------------------------------
+SELECT * FROM Funcionario
+ 
+INSERT INTO Funcionario VALUES ('KItty Wayne','11-08-2000','F','Barueri-SP','11953610244','KittyWay11@gmail.com',null);
+INSERT INTO Funcionario VALUES ('João Lucas','25-05-1972','M','Carapicuiba-SP','11947826699','JoaoLucas@gmail.com',null);
+INSERT INTO Funcionario VALUES ('Luan Henrique','02-05-2001','M','Barueri-SP','11971699455','Luancaterin@Iclod.com', null);
+INSERT INTO Funcionario VALUES ('Marianne Costa','01-11-1995','F','Alphaville-SP','11941558878', 'marianegatinha@hotmaill.com', null);
+INSERT INTO Funcionario VALUES ('Julia Catrina','04-05-1971','F','Jandira-SP','11947458865','Juliastre@gmail.com',null);
+INSERT INTO Funcionario VALUES ('Victor Lopes','02-02-1992','M','Barueri-SP','11942455295','lopesgatrup@gmail.com',null);
+INSERT INTO Funcionario VALUES ('Laurindo Cruz','11-12-2000','M','Barueri-SP','62945852566','cruzxpso@gmail.com',null);
+INSERT INTO Funcionario VALUES ('Rony Cabral','25-09-2000','M','Barueri-SP','11925657848','cabralprodutor@gmail.com',null);
+INSERT INTO Funcionario VALUES ('Katherine Mello','04-05-2004','F','Alphaville','11842586699','mellovictin@gmail.com',null);
+INSERT INTO Funcionario VALUES ('Carine Viliy','02-07-1978','F','Osasco','11971694166','fofolete@gmail.com',null);
+ 
 --Funcionario (
- --   Fun_Id INT PRIMARY KEY IDENTITY(1,1),
- --   Fun_Name VARCHAR(65),
+--   Fun_Id INT PRIMARY KEY IDENTITY(1,1),
+--   Fun_Name VARCHAR(65),
   --  Fun_Nasc DATE,
   --  Fun_Genero VARCHAR (20),
   --  Fun_Ende VARCHAR(65),
- --   Fun_Num INT,
- --   Fun_Email 
-
- select * from funcionario
+--   Fun_Num INT,
+--   Fun_Email
+ 
+select * from funcionario
+ 
+--------------------------------------------------------------------------------------------------------------------------
+INSERT INTO Info_Pet VALUES ('Cachorro', 'Labrador', 'Dourado', 'Rex', '2022-05-15', 25.5, '1');
+INSERT INTO Info_Pet VALUES ('Gato', 'Siamês', 'Marrom', 'Mia', '2023-02-10', 4.2, '2');
+INSERT INTO Info_Pet VALUES ('Cavalo', 'Puro Sangue Árabe', 'Branco', 'Relâmpago', '2023-04-20', 550, '3');
+INSERT INTO Info_Pet VALUES ('Papagaio', 'Arara-azul', 'Azul e Amarelo', 'Loro', '2023-03-10', 0.5, '4');
+INSERT INTO Info_Pet VALUES ('Cobra', 'Python', 'Verde', 'Slither', '2023-02-20', 5.0, '5');
+INSERT INTO Info_Pet VALUES ('Chinchila', 'Standard', 'Cinza', 'Peludinha', '2023-02-28', 0.6, '6');
+INSERT INTO Info_Pet VALUES ('Peixe', 'Betta Splendens', 'Vermelho', 'Aquiles', '2023-01-05', 0.02, '7');
+INSERT INTO Info_Pet VALUES ('Porquinho-da-índia', 'Sheltie', 'Marrom e Branco', 'Fofinho', '2023-03-05', 0.8, '8');
+INSERT INTO Info_Pet VALUES ('Hamster', 'Sírio', 'Dourado', 'Bolinha', '2023-01-20', 0.1, '9');
+INSERT INTO Info_Pet VALUES ('Coelho', 'Holandês', 'Branco e Preto', 'Saltitante', '2023-04-05', 1.2, '10');
+INSERT INTO Info_Pet VALUES ('Pássaro', 'Canário-do-reino', 'Amarelo', 'Melodia', '2023-03-18', 0.05, '11');
+INSERT INTO Info_Pet VALUES ('Peixe', 'Guppy', 'Multicolorido', 'Nemo', '2023-02-05', 0.01, '12');
+ 
+select * from Info_Pet
+-----------------------------------------------------------------------------------------------------------
+INSERT INTO Agen_Vis VALUES ('Consultas preventivas','2024-01-15','1');
+INSERT INTO Agen_Vis VALUES ('Vacinação','2024-01-15', '2');
+INSERT INTO Agen_Vis VALUES ('Cirurgias de esterilização','2024-03-10', '3');
+INSERT INTO Agen_Vis VALUES ('Vacinação','2024-04-05', '4');
+INSERT INTO Agen_Vis VALUES ('Exames laboratoriais','2024-05-25', '5');
+INSERT INTO Agen_Vis VALUES ('Consultas preventivas','2024-06-11', '6');
+INSERT INTO Agen_Vis VALUES ('Cirurgias de esterilização','2024-07-30', '7');
+INSERT INTO Agen_Vis VALUES ('Exames laboratoriais','2024-08-18', '8');
+INSERT INTO Agen_Vis VALUES ('Vacinação','2024-09-27 13:40:30', '9');
+INSERT INTO Agen_Vis VALUES ('Cirurgias de esterilização','2024-10-13', '10');
+INSERT INTO Agen_Vis VALUES ('Consultas preventivas','2024-11-09', '11');
+INSERT INTO Agen_Vis VALUES ('Vacinação','2024-12-31', '12');
+ 
+SELECT  * FROM Agen_Vis
+ 
+ 
+SELECT * FROM Nota_Obs
+ 
+INSERT INTO Nota_Obs VALUES ('6','2024-01-15','A','1');
+INSERT INTO Nota_Obs VALUES ('8','2024-02-20','bom','2');
+INSERT INTO Nota_Obs VALUES ('9','2024-03-10','satisfatorio','3');
+INSERT INTO Nota_Obs VALUES ('9','2024-04-05','otimo petshop','4');
+INSERT INTO Nota_Obs VALUES ('10','2024-05-25','otimo petshop','5');
+INSERT INTO Nota_Obs VALUES ('5','2024-06-11','otimo petshop','6');
+INSERT INTO Nota_Obs VALUES ('8','2024-07-30','otimo petshop','7');
+INSERT INTO Nota_Obs VALUES ('7','2024-08-18','otimo petshop','8');
+INSERT INTO Nota_Obs VALUES ('6','2024-09-27','otimo petshop','9');
+INSERT INTO Nota_Obs VALUES ('5','2024-10-13','otimo petshop','10');
+INSERT INTO Nota_Obs VALUES ('10','2024-11-09','otimo petshop','11');
+INSERT INTO Nota_Obs VALUES ('10','2024-12-31','otimo petshop','12');
+ 
+ 
+ 
+SELECT * FROM Imagem_Doc
+ 
+INSERT INTO Imagem_Doc VALUES ('1','CPF','40769283051','1');
+INSERT INTO Imagem_Doc VALUES ('2','CPF','87238451062','2');
+INSERT INTO Imagem_Doc VALUES ('3','CPF','43928016091','3');
+INSERT INTO Imagem_Doc VALUES ('4','CPF','28561079345','4');
+INSERT INTO Imagem_Doc VALUES ('5','CPF','75894263017','5');
+INSERT INTO Imagem_Doc VALUES ('6','CPF','62347985206','6');
+INSERT INTO Imagem_Doc VALUES ('7','CPF','15093427188','7');
+INSERT INTO Imagem_Doc VALUES ('8','CPF','94028361750','8');
+INSERT INTO Imagem_Doc VALUES ('9','CPF','31659248034','9');
+INSERT INTO Imagem_Doc VALUES ('10','CPF','57243061872','10');
+INSERT INTO Imagem_Doc VALUES ('11','CPF','81432795629','11');
+INSERT INTO Imagem_Doc VALUES ('12','CPF','48215039783','12');
 
 
 

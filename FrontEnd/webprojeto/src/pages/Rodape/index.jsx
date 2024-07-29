@@ -14,6 +14,7 @@ const Rodape = () => {
                 
                 <div >
                 <div className='divparteinstale'>
+                    
                 <center>
 
                     <h1>Instale agora o melhor app para você cuidar dos seus pets como voce sempre quis!</h1>
@@ -29,19 +30,10 @@ const Rodape = () => {
               
                 </div>
                        <div className='testeimagem' >
-                       <left> <  Link to="/" ><img src = {imagem}  /> </Link></left>
+                        <  Link to="/" ><img src = {imagem}  /> </Link>
                        </div>
                        <div className='testelista'>
-                        
-                       <ul className='Rodapelinks'>
-                        
-                           <li> <Link to={"/"} className="Home">Home</Link></li>
-                           <li> <Link to={"/usuario"} className="Cadastro">Cadastro</Link> </li>
-                           <li> <Link to={"/usuario"} className="Dúvidas">Dúvidas</Link> </li>
-                           <li> <Link to={"/usuario"} className="Parcerias">Parcerias</Link> </li>
-                           <li> <Link to={"/usuario"} className="Contatos">Contatos</Link> </li>
-                           
-                       </ul>
+                     
                        
                        </div>
             </footer>
