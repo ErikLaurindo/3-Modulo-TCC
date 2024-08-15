@@ -28,10 +28,12 @@ CREATE TABLE Users (
     User_Genero VARCHAR(50)
 
 );
-
-
+ DELETE FROM Info_Pet
+ WHERE  Info_Pet; 
 SELECT * FROM Users
+SELECT * FROM Info_Pet
  
+
 ALTER TABLE USERS
 
 ADD CONSTRAINT TIPO_DE_GENERO
@@ -46,13 +48,11 @@ Inf_Especie	Varchar(50),
 
 Inf_Raca Varchar(50),
 
-Inf_Cor	Varchar(50),	
+Inf_Cor	Varchar(50),		
 
-Inf Varchar(50),	
+Inf_DataNasc Varchar(50),	
 
-Inf_DataNasc Date,	
-
-Inf_peso DECIMAL,
+Inf_peso Varchar(50),
 
 User_Id INT,
 
@@ -192,7 +192,7 @@ INSERT INTO Funcionario VALUES ('Carine Viliy','02-07-1978','F','Osasco','119716
 select * from funcionario
  
 --------------------------------------------------------------------------------------------------------------------------
-INSERT INTO Info_Pet VALUES ('Cachorro', 'Labrador', 'Dourado', 'Rex', '2022-05-15', 25.5, '1');
+INSERT INTO Info_Pet VALUES ('1', 'Preto', '2022-05-15', 'Cachorro', '25.5', 'Labrador', '1');
 INSERT INTO Info_Pet VALUES ('Gato', 'Siamês', 'Marrom', 'Mia', '2023-02-10', 4.2, '2');
 INSERT INTO Info_Pet VALUES ('Cavalo', 'Puro Sangue Árabe', 'Branco', 'Relâmpago', '2023-04-20', 550, '3');
 INSERT INTO Info_Pet VALUES ('Papagaio', 'Arara-azul', 'Azul e Amarelo', 'Loro', '2023-03-10', 0.5, '4');

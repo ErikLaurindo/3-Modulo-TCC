@@ -1,133 +1,81 @@
-package com.belval.maniadepets.model;
+
+	package com.belval.maniadepets.model;
 
 import java.util.Objects;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Info_Pet")
 public class InfoPet {
-	
-	//Atributos
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "Pet_Id") 
-	private Integer PetId;
-	
-	@Column(name = "Inf_Especie")
-	private String infespecie;
-	
-	@Column(name = "Inf_Raca")
-	private String infaca;
-	
-	@Column(name = "Inf_Cor")
-	private String infcor;
-	
-	@Column(name = "Inf")
-	private String inf;
-	
-	@Column(name = "Inf_DataNasc")
-	private String infdatanasc;
-	
-	//Método construtor padrão, isto é, sem parâmetros
-		public InfoPet() {
-		
-		
-			
-		}
 
-		public InfoPet(Integer petId, String infespecie, String infaca, String infcor, String inf, String infdatanasc) {
-		super();
-		PetId = petId;
-		this.infespecie = infespecie;
-		this.infaca = infaca;
-		this.infcor = infcor;
-		this.inf = inf;
-		this.infdatanasc = infdatanasc;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Pet_Id")
+    private Integer petId;
 
-		public Integer getPetId() {
-			return PetId;
-		}
+    @Column(name = "Inf_Especie")
+    private String infEspecie;
 
-		public void setPetId(Integer petId) {
-			PetId = petId;
-		}
+    @Column(name = "Inf_Raca")
+    private String infRaca;
 
-		public String getInfespecie() {
-			return infespecie;
-		}
+    @Column(name = "Inf_Cor")
+    private String infCor;
 
-		public void setInfespecie(String infespecie) {
-			this.infespecie = infespecie;
-		}
+    @Column(name = "Inf_DataNasc")
+    private String infDataNasc;
 
-		public String getInfaca() {
-			return infaca;
-		}
+    @Column(name = "Inf_Peso")
+    private String infPeso;
 
-		public void setInfaca(String infaca) {
-			this.infaca = infaca;
-		}
+    @OneToOne
+    private User user;
 
-		public String getInfcor() {
-			return infcor;
-		}
+    // Métodos construtores, getters, setters, hashCode, equals e toString...
 
-		public void setInfcor(String infcor) {
-			this.infcor = infcor;
-		}
+    public InfoPet() {}
 
-		public String getInf() {
-			return inf;
-		}
+    public InfoPet(Integer petId, String infEspecie, String infRaca, String infCor, String infDataNasc, String infPeso, User user) {
+        this.petId = petId;
+        this.infEspecie = infEspecie;
+        this.infRaca = infRaca;
+        this.infCor = infCor;
+        this.infDataNasc = infDataNasc;
+        this.infPeso = infPeso;
+        this.user = user;
+    }
 
-		public void setInf(String inf) {
-			this.inf = inf;
-		}
+    // Getters e Setters...
 
-		public String getInfdatanasc() {
-			return infdatanasc;
-		}
+    @Override
+    public int hashCode() {
+        return Objects.hash(petId, infCor, infDataNasc, infEspecie, infPeso, infRaca);
+    }
 
-		public void setInfdatanasc(String infdatanasc) {
-			this.infdatanasc = infdatanasc;
-		}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        InfoPet other = (InfoPet) obj;
+        return Objects.equals(petId, other.petId) && Objects.equals(infCor, other.infCor) &&
+               Objects.equals(infDataNasc, other.infDataNasc) && Objects.equals(infEspecie, other.infEspecie) &&
+               Objects.equals(infPeso, other.infPeso) && Objects.equals(infRaca, other.infRaca);
+    }
 
-		@Override
-		public int hashCode() {
-			return Objects.hash(PetId, inf, infaca, infcor, infdatanasc, infespecie);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			InfoPet other = (InfoPet) obj;
-			return Objects.equals(PetId, other.PetId) && Objects.equals(inf, other.inf)
-					&& Objects.equals(infaca, other.infaca) && Objects.equals(infcor, other.infcor)
-					&& Objects.equals(infdatanasc, other.infdatanasc) && Objects.equals(infespecie, other.infespecie);
-		}
-		
+    @Override
+    public String toString() {
+        return "InfoPet [petId=" + petId + ", infEspecie=" + infEspecie + ", infRaca=" + infRaca + ", infCor=" + infCor +
+               ", infDataNasc=" + infDataNasc + ", infPeso=" + infPeso + "]";
+    }
 }
-		
-
-	
-	
-	
-	
-	
-	
-	
-	
-
+	/*@OneToOne
+	private User user;*/
 	
