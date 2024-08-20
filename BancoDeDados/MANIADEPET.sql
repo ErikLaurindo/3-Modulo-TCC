@@ -28,8 +28,7 @@ CREATE TABLE Users (
     User_Genero VARCHAR(50)
 
 );
- DELETE FROM Info_Pet
- WHERE  Info_Pet; 
+drop table Info_Pet
 SELECT * FROM Users
 SELECT * FROM Info_Pet
  
@@ -192,7 +191,7 @@ INSERT INTO Funcionario VALUES ('Carine Viliy','02-07-1978','F','Osasco','119716
 select * from funcionario
  
 --------------------------------------------------------------------------------------------------------------------------
-INSERT INTO Info_Pet VALUES ('1', 'Preto', '2022-05-15', 'Cachorro', '25.5', 'Labrador', '1');
+INSERT INTO Info_Pet VALUES ('1', 'Preto', 'Cachorro', 'dog',  'Labrador','doze', '1'); on
 INSERT INTO Info_Pet VALUES ('Gato', 'Siamês', 'Marrom', 'Mia', '2023-02-10', 4.2, '2');
 INSERT INTO Info_Pet VALUES ('Cavalo', 'Puro Sangue Árabe', 'Branco', 'Relâmpago', '2023-04-20', 550, '3');
 INSERT INTO Info_Pet VALUES ('Papagaio', 'Arara-azul', 'Azul e Amarelo', 'Loro', '2023-03-10', 0.5, '4');
@@ -257,3 +256,83 @@ INSERT INTO Imagem_Doc VALUES ('12','CPF','48215039783','12');
 
 
 
+-- Criar o banco de dados
+
+CREATE DATABASE MANIADEPET;
+
+GO
+
+-- Usar o banco de dados criado
+
+USE MANIADEPET;
+
+GO
+
+-- Criar a tabela Users
+
+CREATE TABLE Users (
+
+    User_Id INT PRIMARY KEY IDENTITY(1,1),
+
+    User_Name VARCHAR(65),
+
+    User_Senha VARCHAR(15),
+
+    User_Email VARCHAR(70),
+
+    User_Nasc DATE,
+
+    User_Genero VARCHAR(50)
+
+);
+
+-- Criar a tabela Info_Pet com a chave estrangeira referenciando Users
+
+CREATE TABLE Info_Pet (
+
+    Pet_Id INT PRIMARY KEY IDENTITY(1,1),
+
+    Inf_Especie VARCHAR(50),
+
+    Inf_Raca VARCHAR(50),
+
+    Inf_Cor VARCHAR(50),
+
+    Inf_Data_Nasc VARCHAR(50),
+
+    Inf_Peso VARCHAR(50),
+
+    User_Id INT,
+
+    FOREIGN KEY (User_Id) REFERENCES Users(User_Id)
+
+);
+
+-- Exibir os dados das tabelas para verificação
+
+SELECT * FROM Users;
+
+SELECT * FROM Info_Pet;
+ 
+-- Inserir pets na tabela Info_Pet
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Cachorro', 'Labrador', 'Amarelo', '2020-05-15', '30kg', 1);
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Gato', 'Persa', 'Branco', '2021-03-20', '5kg', 2);
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Cachorro', 'Bulldog', 'Marrom', '2019-08-10', '20kg', 3);
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Gato', 'Sphynx', 'Cinza', '2022-01-12', '4kg', 4);
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Cachorro', 'Beagle', 'Tricolor', '2020-11-25', '12kg', 1);
+ 

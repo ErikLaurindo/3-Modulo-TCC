@@ -13,13 +13,15 @@ const CadastroPet = () => {
  const [vId, setUser_Id] = useState('');  // Novo estado para o ID do usuário
  const handleSubmit = async () => {
    try {
-    const response = await api.post('InfoPet', {
-       InfRaca: vRaca,
-       InfEspecie: vEspecie,
-       InfCor: vCor,
-       InfInf_DataNasc: vInf_DataNasc,
-       InfPeso: vPeso,
-       InfUser_id: vId  // Incluindo o ID do usuário na requisição
+    const response = await api.post('/Info_Pet', {
+       infRaca: vRaca,
+       infEspecie: vEspecie,
+       infCor: vCor,
+       infDataNasc: vInf_DataNasc,
+       infPeso: vPeso,
+       user: {
+        userId: vId
+      }
      });
      console.log(response.data);
    } catch (error) {

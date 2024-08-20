@@ -90,9 +90,9 @@ const Usuario = () => {
 <label className="label">Gênero</label> <br />
 <select className="genero" value={vgenero} onChange={(e) => setGenero(e.target.value)}>
 <option value="">Selecione</option>
-<option value="M">Masculino</option>
-<option value="F">Feminino</option>
-<option value="m">Não identificado</option>
+<option value="Masculino">Masculino</option>
+<option value="Feminino">Feminino</option>
+<option value="Não identificado">Não identificado</option>
 </select>
           {errors.genero && <p className="error">{errors.genero}</p>}
 </div>
