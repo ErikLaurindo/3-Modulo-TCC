@@ -1,23 +1,17 @@
 import { useState } from "react";
 import api from "../../services/api";
-import './CadastroPet.css';
+import './AgenVis.css';
 import Rodape from '../Rodape';
-import imagem from './fundoum,.png';
-const CadastroPet = () => {
- const [vRaca, setRaca] = useState('');
- const [vEspecie, setEspecie] = useState('');
- const [vCor, setCor] = useState('');
- const [vInf_DataNasc, setInf_DataNasc] = useState('');
- const [vPeso, setPeso] = useState('');
+import imagem from '../CadastroPet/fundoum,.png';
+const AgenVis = () => {
+ const [vTipo, setTipo] = useState('');
+ const [vAgen_DataAgen, setAgen_DataAgen] = useState('');
  const [vId, setUser_Id] = useState('');  // Novo estado para o ID do usuário
  const handleSubmit = async () => {
    try {
-    const response = await api.post('/Info_Pet', {
-       infRaca: vRaca,
-       infEspecie: vEspecie,
-       infCor: vCor,
-       infDataNasc: vInf_DataNasc,
-       infPeso: vPeso,
+    const response = await api.post('/Agen_Vis', {
+       agenTipo: vTipo,
+       agenDataAgen: vAgen_DataAgen,
        user: {
         userId: vId
       }
@@ -30,49 +24,34 @@ const CadastroPet = () => {
  return (
 <div>
 <div className="divum"> 
-<h1>Faça Seu Cadastro</h1>
+<h1>Faça Seu Agendamento</h1>
 </div>
 <div className="app-container">
 <div className="form-group">
-<label className="label">Raça</label>
+<label className="label">Tipo do serviço</label>
 <br/>
-<input type="text" value={vRaca} placeholder="Informe a Raça" onChange={(e) => setRaca(e.target.value)} />
+ <input type="text" value={vTipo} placeholder="Informe o serviço desejado" onChange={(e) => setTipo(e.target.value)} />
 </div>
 <div className="form-group">
-<label className="label">Especie</label>
+<label className="label">Data de agendamento</label>
 <br/>
-<input type="text" value={vEspecie}  placeholder="Informe a especie" onChange={(e) => setEspecie(e.target.value)} />
+<input type="text" value={vAgen_DataAgen} placeholder="Informe a data de agendamento da visita" onChange={(e) => setInf_DataNasc(e.target.value)} />
 </div>
 <div className="form-group">
-<label className="label">Cor</label>
-<br/>
-<input type="text" value={vCor} placeholder="Informe a cor" onChange={(e) => setCor(e.target.value)} />
-</div>
-<div className="form-group">
-<label className="label">Data de Nascimento</label>
-<br/>
-<input type="text" value={vInf_DataNasc} placeholder="Informe a data de nascimento" onChange={(e) => setInf_DataNasc(e.target.value)} />
-</div>
-<div className="form-group">
-<label className="label">Peso</label>
-<br/>
-<input type="text" value={vPeso} placeholder="Informe o peso" onChange={(e) => setPeso(e.target.value)} />
-</div>
-<div className="form-group">
-<label className="label">ID do Usuário</label>
+<label className="label">ID do Pet</label>
 <br/>
 <input type="text" value={vId} placeholder="Informe o ID do usuário" onChange={(e) => setUser_Id(e.target.value)} />
 </div>
 <div className="form-group">
-<button onClick={handleSubmit}>Criar Cadastro do Pet</button>
+<button onClick={handleSubmit}>Confirmar agendamento</button>
 </div>
 </div>
 <div><img src={imagem} className="imagem" /></div>
 <div><Rodape /></div>
-</div>
+</div>  
  );
 };
-export default CadastroPet
+export default AgenVis
 /*import { useState } from "react";
 import api from "../../services/api";
 import './CadastroPet.css';

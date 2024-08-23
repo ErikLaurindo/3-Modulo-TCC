@@ -7,7 +7,7 @@ header{
    
    
 }
-.Cadastro, .Dúvidas, .Parcerias, .Contatos, .Home, .CadastroPet {
+.Cadastro, .Dúvidas, .Parcerias, .Contatos, .Home, .CadastroPet, .AgenVis {
     text-decoration: none;
     cursor: pointer;
     background-color: transparent;
@@ -18,7 +18,7 @@ header{
     
     
 } 
-.Cadastro:hover, .Dúvidas:hover, .Parcerias:hover, .Contatos:hover, .Home:hover, .CadastroPet:hover {
+.Cadastro:hover, .Dúvidas:hover, .Parcerias:hover, .Contatos:hover, .Home:hover, .CadastroPet:hover, .AgenVis:hover {
     color: #00A3FF;
 }
 .logoimagem{

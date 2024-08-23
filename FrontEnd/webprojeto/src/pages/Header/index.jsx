@@ -9,6 +9,8 @@ function Header({ isRegistered }) {
 <Link to="/duvidas" className="Dúvidas">Dúvidas</Link>
 <Link to="/parcerias" className="Parcerias">Parcerias</Link>
 <Link to="/CadastroPet" className="CadastroPet">Cadastro do Pet</Link>
+<Link to="/AgenVis" className="AgenVis">Agendamento do Pet</Link>
+
 {!isRegistered && <Link to="/usuario" className="Cadastro">Cadastro do Usuario</Link>}
 </header>
  );

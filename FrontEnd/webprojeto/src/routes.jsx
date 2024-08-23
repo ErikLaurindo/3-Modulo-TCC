@@ -7,6 +7,7 @@ import Contatos from './pages/Contatos';
 import Parcerias from './pages/Parcerias';
 import CadastroPet from './pages/CadastroPet';
 import Duvidas from './pages/Duvidas';
+import AgenVis from './pages/AgenVis';
 
 
 function RoutesApp() {
@@ -25,6 +26,7 @@ function RoutesApp() {
 <Route path="/duvidas" element={<Duvidas />} />
 <Route path="/contatos" element={<Contatos />} />
 <Route path="/parcerias" element={<Parcerias />} />
+<Route path="/agenVis" element={<AgenVis />} />
 
 
        {!isRegistered && (

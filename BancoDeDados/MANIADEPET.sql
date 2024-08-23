@@ -1,63 +1,89 @@
-USE MASTER IF EXISTS(SELECT * FROM SYS.databases WHERE NAME = 'MANIADEPET')
+//USE MASTER IF EXISTS(SELECT * FROM SYS.databases WHERE NAME = 'MANIADEPET')
 
 DROP DATABASE MANIADEPET
 
 GO
  
-CREATE DATABASE MANIADEPET
+ -- Criar o banco de dados
+
+CREATE DATABASE MANIADEPET;
 
 GO
- 
-USE MANIADEPET
+
+-- Usar o banco de dados criado
+
+USE MANIADEPET;
 
 GO
- 
- 
+
+-- Criar a tabela Users
+
 CREATE TABLE Users (
 
     User_Id INT PRIMARY KEY IDENTITY(1,1),
 
     User_Name VARCHAR(65),
 
-    User_Senha VARCHAR (15),
+    User_Senha VARCHAR(15),
 
-    User_Email VARCHAR (70),
+    User_Email VARCHAR(70),
 
     User_Nasc DATE,
 
     User_Genero VARCHAR(50)
 
 );
-drop table Info_Pet
-SELECT * FROM Users
-SELECT * FROM Info_Pet
- 
 
-ALTER TABLE USERS
+-- Criar a tabela Info_Pet com a chave estrangeira referenciando Users
 
-ADD CONSTRAINT TIPO_DE_GENERO
+CREATE TABLE Info_Pet (
 
-CHECK (User_Genero IN ('F', 'M'));
- 
-CREATE TABLE Info_Pet ( 
+    Pet_Id INT PRIMARY KEY IDENTITY(1,1),
 
-Pet_Id INT PRIMARY KEY IDENTITY(1,1),
+    Inf_Especie VARCHAR(50),
 
-Inf_Especie	Varchar(50),	
+    Inf_Raca VARCHAR(50),
 
-Inf_Raca Varchar(50),
+    Inf_Cor VARCHAR(50),
 
-Inf_Cor	Varchar(50),		
+    Inf_Data_Nasc VARCHAR(50),
 
-Inf_DataNasc Varchar(50),	
+    Inf_Peso VARCHAR(50),
 
-Inf_peso Varchar(50),
+    User_Id INT,
 
-User_Id INT,
-
-FOREIGN KEY (User_ID) REFERENCES USERS(User_Id)
+    FOREIGN KEY (User_Id) REFERENCES Users(User_Id)
 
 );
+
+-- Exibir os dados das tabelas para verificação
+
+SELECT * FROM Users;
+
+SELECT * FROM Info_Pet;
+ 
+-- Inserir pets na tabela Info_Pet
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Cachorro', 'Labrador', 'Amarelo', '2020-05-15', '30kg', 1);
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Gato', 'Persa', 'Branco', '2021-03-20', '5kg', 2);
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Cachorro', 'Bulldog', 'Marrom', '2019-08-10', '20kg', 3);
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Gato', 'Sphynx', 'Cinza', '2022-01-12', '4kg', 4);
+
+INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
+
+VALUES ('Cachorro', 'Beagle', 'Tricolor', '2020-11-25', '12kg', 1);
+
  
 -- Tabela de agenda de visitas
 
@@ -256,83 +282,5 @@ INSERT INTO Imagem_Doc VALUES ('12','CPF','48215039783','12');
 
 
 
--- Criar o banco de dados
 
-CREATE DATABASE MANIADEPET;
-
-GO
-
--- Usar o banco de dados criado
-
-USE MANIADEPET;
-
-GO
-
--- Criar a tabela Users
-
-CREATE TABLE Users (
-
-    User_Id INT PRIMARY KEY IDENTITY(1,1),
-
-    User_Name VARCHAR(65),
-
-    User_Senha VARCHAR(15),
-
-    User_Email VARCHAR(70),
-
-    User_Nasc DATE,
-
-    User_Genero VARCHAR(50)
-
-);
-
--- Criar a tabela Info_Pet com a chave estrangeira referenciando Users
-
-CREATE TABLE Info_Pet (
-
-    Pet_Id INT PRIMARY KEY IDENTITY(1,1),
-
-    Inf_Especie VARCHAR(50),
-
-    Inf_Raca VARCHAR(50),
-
-    Inf_Cor VARCHAR(50),
-
-    Inf_Data_Nasc VARCHAR(50),
-
-    Inf_Peso VARCHAR(50),
-
-    User_Id INT,
-
-    FOREIGN KEY (User_Id) REFERENCES Users(User_Id)
-
-);
-
--- Exibir os dados das tabelas para verificação
-
-SELECT * FROM Users;
-
-SELECT * FROM Info_Pet;
- 
--- Inserir pets na tabela Info_Pet
-
-INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
-
-VALUES ('Cachorro', 'Labrador', 'Amarelo', '2020-05-15', '30kg', 1);
-
-INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
-
-VALUES ('Gato', 'Persa', 'Branco', '2021-03-20', '5kg', 2);
-
-INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
-
-VALUES ('Cachorro', 'Bulldog', 'Marrom', '2019-08-10', '20kg', 3);
-
-INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
-
-VALUES ('Gato', 'Sphynx', 'Cinza', '2022-01-12', '4kg', 4);
-
-INSERT INTO Info_Pet (Inf_Especie, Inf_Raca, Inf_Cor, Inf_Data_Nasc, Inf_Peso, User_Id)
-
-VALUES ('Cachorro', 'Beagle', 'Tricolor', '2020-11-25', '12kg', 1);
  
