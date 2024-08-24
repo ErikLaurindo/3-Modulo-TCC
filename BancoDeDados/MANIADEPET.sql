@@ -61,6 +61,8 @@ CREATE TABLE Info_Pet (
 SELECT * FROM Users;
 
 SELECT * FROM Info_Pet;
+
+SELECT * FROM Agen_Vis;
  
 -- Inserir pets na tabela Info_Pet
 
@@ -93,7 +95,7 @@ CREATE TABLE Agen_Vis (
 
     Agen_Tipo VARCHAR(65),
 
-    Agen_DataAgen DATE,
+    Agen_DataAgen VARCHAR(65),
 
 	Pet_Id INT,
 
@@ -133,21 +135,7 @@ CHECK (Fun_Genero IN ('F', 'M'));
  
 -- Tabela de notas e observações
 
-CREATE TABLE Nota_Obs (
 
-    Id_Notas INT PRIMARY KEY IDENTITY(1,1),
-
-    tipoNotas INT,
-
-    DataNota DATE,
-
-    Obs_gerais VARCHAR(500),
-
-	Agen_Id INT,
-
-	FOREIGN KEY (Agen_Id) REFERENCES Agen_Vis(Agen_Id)
-
-);
  
 -- Tabela de imagens e documentos
 
