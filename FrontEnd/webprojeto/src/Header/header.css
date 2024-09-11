@@ -7,18 +7,17 @@ header{
    
    
 }
-.Cadastro, .Dúvidas, .Parcerias, .Contatos, .Home, .CadastroPet, .AgenVis {
+.Cadastro, .Dúvidas, .Parcerias, .Contatos, .Home, .CadastroPet, .AgenVis, .Funcionario, .Login {
     text-decoration: none;
     cursor: pointer;
     background-color: transparent;
     padding: 10px 14px;
-    border:none;
-    color:black;
+    border: none;
+    color: black;
     border-radius: 4px;
-    
-    
-} 
-.Cadastro:hover, .Dúvidas:hover, .Parcerias:hover, .Contatos:hover, .Home:hover, .CadastroPet:hover, .AgenVis:hover {
+    font-family: 'Pacifico', cursive;
+}
+.Cadastro:hover, .Dúvidas:hover, .Parcerias:hover, .Contatos:hover, .Home:hover, .CadastroPet:hover, .AgenVis:hover, .Funcionario:hover, .Login:hover {
     color: #00A3FF;
 }
 .logoimagem{
@@ -28,3 +27,4 @@ header{
     align-items: right;
 
 }
+

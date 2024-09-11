@@ -26,7 +26,7 @@ function parcerias () {
     return(
       <div>
       <div className="divumparcerias">
-       <h1>Parcerias</h1>
+       <h1>PARCERIAS</h1>
        <h3>Eles cooperam conosco pelo mundo Pet</h3>
      </div>
      <div>

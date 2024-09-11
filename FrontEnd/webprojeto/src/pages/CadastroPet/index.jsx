@@ -2,77 +2,106 @@ import { useState } from "react";
 import api from "../../services/api";
 import './CadastroPet.css';
 import Rodape from '../Rodape';
-import imagem from './fundoum,.png';
 const CadastroPet = () => {
  const [vRaca, setRaca] = useState('');
  const [vEspecie, setEspecie] = useState('');
  const [vCor, setCor] = useState('');
  const [vInf_DataNasc, setInf_DataNasc] = useState('');
  const [vPeso, setPeso] = useState('');
- const [vId, setUser_Id] = useState('');  // Novo estado para o ID do usuário
+ const [vId, setUser_Id] = useState('');
+ const [pets, setPets] = useState([]); // Estado para armazenar os pets
  const handleSubmit = async () => {
    try {
-    const response = await api.post('/Info_Pet', {
+     const response = await api.post('/Info_Pet', {
        infRaca: vRaca,
        infEspecie: vEspecie,
        infCor: vCor,
        infDataNasc: vInf_DataNasc,
        infPeso: vPeso,
        user: {
-        userId: vId
-      }
+         userId: vId
+       }
      });
      console.log(response.data);
+     setPets([...pets, response.data]); // Adiciona o novo pet ao estado
+     // Limpa os campos após o envio
+     setRaca('');
+     setEspecie('');
+     setCor('');
+     setInf_DataNasc('');
+     setPeso('');
+     setUser_Id('');
    } catch (error) {
      console.log(error);
    }
  };
  return (
 <div>
-<div className="divum"> 
+<div className="divum">
 <h1>Faça Seu Cadastro</h1>
 </div>
 <div className="app-container">
 <div className="form-group">
 <label className="label">Raça</label>
-<br/>
+<br />
 <input type="text" value={vRaca} placeholder="Informe a Raça" onChange={(e) => setRaca(e.target.value)} />
 </div>
 <div className="form-group">
 <label className="label">Especie</label>
-<br/>
-<input type="text" value={vEspecie}  placeholder="Informe a especie" onChange={(e) => setEspecie(e.target.value)} />
+<br />
+<input type="text" value={vEspecie} placeholder="Informe a Especie" onChange={(e) => setEspecie(e.target.value)} />
 </div>
 <div className="form-group">
 <label className="label">Cor</label>
-<br/>
-<input type="text" value={vCor} placeholder="Informe a cor" onChange={(e) => setCor(e.target.value)} />
+<br />
+<input type="text" value={vCor} placeholder="Informe a Cor" onChange={(e) => setCor(e.target.value)} />
 </div>
 <div className="form-group">
 <label className="label">Data de Nascimento</label>
-<br/>
-<input type="text" value={vInf_DataNasc} placeholder="Informe a data de nascimento" onChange={(e) => setInf_DataNasc(e.target.value)} />
+<br />
+<input type="text" value={vInf_DataNasc} placeholder="Informe a Data de Nascimento" onChange={(e) => setInf_DataNasc(e.target.value)} />
 </div>
 <div className="form-group">
 <label className="label">Peso</label>
-<br/>
-<input type="text" value={vPeso} placeholder="Informe o peso" onChange={(e) => setPeso(e.target.value)} />
+<br />
+<input type="text" value={vPeso} placeholder="Informe o Peso" onChange={(e) => setPeso(e.target.value)} />
 </div>
 <div className="form-group">
 <label className="label">ID do Usuário</label>
-<br/>
-<input type="text" value={vId} placeholder="Informe o ID do usuário" onChange={(e) => setUser_Id(e.target.value)} />
+<br />
+<input type="text" value={vId} placeholder="Informe o ID do Usuário" onChange={(e) => setUser_Id(e.target.value)} />
 </div>
 <div className="form-group">
 <button onClick={handleSubmit}>Criar Cadastro do Pet</button>
 </div>
 </div>
-<div><img src={imagem} className="imagem" /></div>
+<div className="pets-container">
+       {pets.map((pet, index) => (
+<div key={index} className="pet-card">
+<img src={pet.imageUrl || 'default-image.png'} alt="Pet" className="pet-image" />
+<div className="pet-description">
+<p><strong>Raça:</strong> {pet.infRaca}</p>
+<p><strong>Espécie:</strong> {pet.infEspecie}</p>
+<p><strong>Cor:</strong> {pet.infCor}</p>
+<p><strong>Data de Nascimento:</strong> {pet.infDataNasc}</p>
+<p><strong>Peso:</strong> {pet.infPeso}</p>
+</div>
+</div>
+       ))}
+</div>
+< br/>
+< br/>
+< br/>
+< br/>
+< br/>
+< br/>
+
 <div><Rodape /></div>
 </div>
  );
 };
-export default CadastroPet
+export default CadastroPet;
+ 
 /*import { useState } from "react";
 import api from "../../services/api";
 import './CadastroPet.css';

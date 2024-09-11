@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import './duvidas.css';
-import imagem from './imagemduvidas.png';
+import imagem from './duvidas.png';
 import Rodape from '../Rodape';
-
+import imagem2 from './duvidas2.png';
 function Duvidas() {
     return (
       <div>
@@ -10,8 +10,11 @@ function Duvidas() {
             <div className='conteudo'>
                 <div className='imagem-container'>
                     <img className='imagem' src={imagem} alt="Dúvidas" />
-                    <img className='imagem' src={imagem} alt="Dúvidas" />
+                    <img className='imagem' src={imagem2} alt="Dúvidas" />
                    
+                </div>
+                <div className="divtema">
+                <h1>DÚVIDAS</h1>
                 </div>
                 <div className='texto-container'>
                     <h1>Quantos pets eu posso cadastrar?</h1>

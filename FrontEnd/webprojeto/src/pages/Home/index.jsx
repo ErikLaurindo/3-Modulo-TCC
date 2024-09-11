@@ -6,7 +6,7 @@ import Rodape from '../Rodape';
 import Carrossel from '../Carrossel';
 import Carrosseldois from '../Carrosseldois';
 
-import imagem from './imagens/fundoum,.png';
+import imagem from './imagens/arara.png';
 import imagem2 from './imagens/appleinstale.png';
 import imagem3 from './imagens/googleplayinstale.png';
 import imagem5 from './imagens/testetres.png';
@@ -30,8 +30,8 @@ import imagem22 from './imagens/parceiro6.jpeg';
 import imagem23 from './imagens/parceiro7.jpeg';
 import imagem24 from './imagens/parceiro8.jpeg';
 import imagem25 from './imagens/parceiro9.jpeg';
-
-
+import imagem26 from './imagens/coelho.png';
+import imagem27 from './imagens/rottweiler.png';
 
 
 
@@ -42,7 +42,7 @@ function Home() {
         <div className="divpaii">
             <div className="divparteum">
                 <center> <h1 className="textoum">O app feito para você cuidar ainda melhor dos seus pets!</h1>
-                    <  Link to="/usuario" className="logoum"><img src={imagem11} className="cadastrar" /> </Link>
+                <Link to='/Usuario'> <button className="Cadastrar" > Cadastrar </button> </Link>
 
                 </center>
             </div>
@@ -50,7 +50,7 @@ function Home() {
                 <center> <img src={imagem} className="" /></center>
             </div>
             <div className='divpartetres'>
-                <center> <img src={imagem5} className="" /></center>
+                <center> <img src={imagem27} className="" /></center>
             </div>
             <div className='divpartequatro'>
                 <center> <h1 className="textoum">Você sabia que apenas 30% dos tutores lembram ou registram os dados de saúde de seus pets?Você sabia que apenas 30% dos tutores lembram ou registram os dados de saúde de seus pets?Você sabia que apenas 30% dos tutores lembram ou registram os dados de saúde de seus pets?</h1>
@@ -58,7 +58,7 @@ function Home() {
                 </center>
             </div>
             <div className='divpartecinco'>
-                <center> <img src={imagem} className="fundoum" /></center>
+                <center> <img src={imagem26} className="fundoum" /></center>
             </div>
             <div className='divparteseis'>
                 <center> <h1 className='textodivseis'>Tudo Que Seu Pet Precisa Na Palma Da Mão</h1>

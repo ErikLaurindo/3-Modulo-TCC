@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-import Header from './pages/Header';
 import Home from './pages/Home';
 import Usuario from './pages/Usuario';
 import Contatos from './pages/Contatos';
@@ -8,17 +7,20 @@ import Parcerias from './pages/Parcerias';
 import CadastroPet from './pages/CadastroPet';
 import Duvidas from './pages/Duvidas';
 import AgenVis from './pages/AgenVis';
-
-
+import Login from './pages/Login';
+import Funcionario from './pages/Funcionario';
+import Header from './Header'; // Importando diretamente de Header.jsx
 function RoutesApp() {
- const [isRegistered, setIsRegistered] = useState(false);
- // Função para atualizar o estado de cadastro
- const handleRegister = () => {
-   setIsRegistered(true);
+ const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado de login
+ const handleLogin = () => {
+   setIsLoggedIn(true); // Atualiza o estado de login quando o login é bem-sucedido
+ };
+ const handleLogout = () => {
+   setIsLoggedIn(false); // Atualiza o estado de login quando o usuário clica em "Sair"
  };
  return (
 <BrowserRouter>
-<Header />
+<Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
 <Routes>
 <Route path="/" element={<Home />} />
 <Route path="/usuario" element={<Usuario />} />
@@ -27,14 +29,8 @@ function RoutesApp() {
 <Route path="/contatos" element={<Contatos />} />
 <Route path="/parcerias" element={<Parcerias />} />
 <Route path="/agenVis" element={<AgenVis />} />
-
-
-       {!isRegistered && (
-<Route
-           path="/usuario"
-           element={<Usuario onRegister={handleRegister} />}
-         />
-       )}
+<Route path="/login" element={<Login onLogin={handleLogin} />} /> {/* Passa a função para Login */}
+<Route path="/funcionario" element={<Funcionario />} />
 </Routes>
 </BrowserRouter>
  );

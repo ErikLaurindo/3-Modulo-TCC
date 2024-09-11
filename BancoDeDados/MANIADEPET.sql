@@ -1,4 +1,4 @@
-//USE MASTER IF EXISTS(SELECT * FROM SYS.databases WHERE NAME = 'MANIADEPET')
+USE MASTER IF EXISTS(SELECT * FROM SYS.databases WHERE NAME = 'MANIADEPET')
 
 DROP DATABASE MANIADEPET
 
@@ -63,6 +63,8 @@ SELECT * FROM Users;
 SELECT * FROM Info_Pet;
 
 SELECT * FROM Agen_Vis;
+
+SELECT * FROM Funcionario;
  
 -- Inserir pets na tabela Info_Pet
 
@@ -127,11 +129,7 @@ CREATE TABLE Funcionario (
 
 );
  
-ALTER TABLE Funcionario 
 
-ADD CONSTRAINT TIPOS_DE_GENEROS 
-
-CHECK (Fun_Genero IN ('F', 'M'));
  
 -- Tabela de notas e observações
 

@@ -1,90 +1,93 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importa o hook useNavigate
 import './usuario.css';
 import Rodape from '../Rodape';
 import api from "../../services/api";
 import ReactInputMask from "react-input-mask";
 const Usuario = () => {
-  const [vnome, setNome] = useState('');
-  const [vsenha, setSenha] = useState('');
-  const [vemail, setEmail] = useState('');
-  const [vnasc, setNasc] = useState('');
-  const [vgenero, setGenero] = useState('');
-  const [errors, setErrors] = useState({});
-  const [cadastroConfirmado, setCadastroConfirmado] = useState(false);
-  const [usuarios, setUsuarios] = useState([]); // Novo estado para armazenar usuários
-  const handleSubmit = async () => {
-    const newErrors = {};
-    if (!vnome) newErrors.nome = "Nome é obrigatório.";
-    if (!vemail) newErrors.email = "Email é obrigatório.";
-    if (!vnasc) newErrors.nasc = "Data de Nascimento é obrigatória.";
-    if (!vgenero) newErrors.genero = "Gênero é obrigatório.";
-    if (!vsenha) newErrors.senha = "Senha é obrigatória.";
-    if (vemail && !vemail.includes('@')) {
-      newErrors.email = "Informe um e-mail válido.";
-    }
-    if (vnome && !/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(vnome)) {
-      newErrors.nome = "O nome deve conter apenas letras.";
-    }
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) return;
-    try {
-      const response = await api.post('users', {
-        userName: vnome,
-        userSenha: vsenha,
-        userEmail: vemail,
-        userNasc: vnasc,
-        userGenero: vgenero
-      });
-      console.log(response.data);
-      setCadastroConfirmado(true);
-      // Adiciona o novo usuário à lista, sem a senha
-      const novoUsuario = {
-        nome: vnome,
-        email: vemail,
-        nasc: vnasc,
-        genero: vgenero
-      };
-      setUsuarios([...usuarios, novoUsuario]);
-      // Limpa os campos do formulário
-      setNome('');
-      setSenha('');
-      setEmail('');
-      setNasc('');
-      setGenero('');
-      setErrors({});
-      setCadastroConfirmado(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  return (
+ const [vnome, setNome] = useState('');
+ const [vsenha, setSenha] = useState('');
+ const [vemail, setEmail] = useState('');
+ const [vnasc, setNasc] = useState('');
+ const [vgenero, setGenero] = useState('');
+ const [errors, setErrors] = useState({});
+ const [cadastroConfirmado, setCadastroConfirmado] = useState(false);
+ const [usuarios, setUsuarios] = useState([]); // Novo estado para armazenar usuários
+ const navigate = useNavigate(); // Cria uma instância do hook useNavigate
+ const handleSubmit = async () => {
+   const newErrors = {};
+   if (!vnome) newErrors.nome = "Nome é obrigatório.";
+   if (!vemail) newErrors.email = "Email é obrigatório.";
+   if (!vnasc) newErrors.nasc = "Data de Nascimento é obrigatória.";
+   if (!vgenero) newErrors.genero = "Gênero é obrigatório.";
+   if (!vsenha) newErrors.senha = "Senha é obrigatória.";
+   if (vemail && !vemail.includes('@')) {
+     newErrors.email = "Informe um e-mail válido.";
+   }
+   if (vnome && !/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(vnome)) {
+     newErrors.nome = "O nome deve conter apenas letras.";
+   }
+   setErrors(newErrors);
+   if (Object.keys(newErrors).length > 0) return;
+   try {
+     const response = await api.post('users', {
+       userName: vnome,
+       userSenha: vsenha,
+       userEmail: vemail,
+       userNasc: vnasc,
+       userGenero: vgenero
+     });
+     console.log(response.data);
+     setCadastroConfirmado(true);
+     // Adiciona o novo usuário à lista, sem a senha
+     const novoUsuario = {
+       nome: vnome,
+       email: vemail,
+       nasc: vnasc,
+       genero: vgenero
+     };
+     setUsuarios([...usuarios, novoUsuario]);
+     // Limpa os campos do formulário
+     setNome('');
+     setSenha('');
+     setEmail('');
+     setNasc('');
+     setGenero('');
+     setErrors({});
+     setCadastroConfirmado(false);
+     // Redireciona para a tela de login
+     navigate('/login');
+   } catch (error) {
+     console.log(error);
+   }
+ };
+ return (
 <div>
 <div className="divum">
 <h1 className="h1">Faça Seu Cadastro</h1>
 <h1>Usuários Cadastrados</h1>
 </div>
-
 <div className="app-container">
-        {cadastroConfirmado && <p className="confirmation-message">Cadastro confirmado!</p>}
+       {cadastroConfirmado && <p className="confirmation-message">Cadastro confirmado!</p>}
 <div className="form-group">
 <label className="label">Nome</label> <br />
 <input type="text" value={vnome} placeholder="Informe o seu Nome Completo" onChange={(e) => setNome(e.target.value)} />
-          {errors.nome && <p className="error">{errors.nome}</p>}
+         {errors.nome && <p className="error">{errors.nome}</p>}
 </div>
 <div className="form-group">
 <label className="label">Email</label> <br />
 <input type="text" value={vemail} placeholder="Informe o Email" onChange={(e) => setEmail(e.target.value)} />
-          {errors.email && <p className="error">{errors.email}</p>}
+         {errors.email && <p className="error">{errors.email}</p>}
 </div>
 <div className="form-group">
 <label className="label">Data de Nascimento</label> <br />
 <ReactInputMask
-            mask="99/99/9999"
-            value={vnasc}
-            placeholder="DD/MM/AAAA"
-            onChange={(e) => setNasc(e.target.value)}
-          />
-          {errors.nasc && <p className="error">{errors.nasc}</p>}
+           mask="99/99/9999"
+           value={vnasc}
+           placeholder="DD/MM/AAAA"
+           onChange={(e) => setNasc(e.target.value)}
+         />
+         {errors.nasc && <p className="error">{errors.nasc}</p>}
 </div>
 <div className="form-group">
 <label className="label">Gênero</label> <br />
@@ -94,19 +97,18 @@ const Usuario = () => {
 <option value="Feminino">Feminino</option>
 <option value="Não identificado">Não identificado</option>
 </select>
-          {errors.genero && <p className="error">{errors.genero}</p>}
+         {errors.genero && <p className="error">{errors.genero}</p>}
 </div>
 <div className="form-group">
 <label className="label">Senha</label> <br />
 <input name="password" id="password" type="password" maxLength={8} value={vsenha} onChange={(e) => setSenha(e.target.value)} />
-          {errors.senha && <p className="error">{errors.senha}</p>}
+         {errors.senha && <p className="error">{errors.senha}</p>}
 </div>
 <div className="button">
 <button onClick={handleSubmit}>Criar Conta</button>
 </div>
 </div>
 <div className="UsuariosCadastrados">
-
 <table>
 <thead>
 <tr>
@@ -117,20 +119,20 @@ const Usuario = () => {
 </tr>
 </thead>
 <tbody>
-            {usuarios.map((usuario, index) => (
+           {usuarios.map((usuario, index) => (
 <tr key={index}>
 <td>{usuario.nome}</td>
 <td>{usuario.email}</td>
 <td>{usuario.nasc}</td>
 <td>{usuario.genero}</td>
 </tr>
-            ))}
+           ))}
 </tbody>
 </table>
 </div>
-<br/><Rodape />
+<br /><Rodape />
 </div>
-  );
+ );
 };
 export default Usuario;
  
