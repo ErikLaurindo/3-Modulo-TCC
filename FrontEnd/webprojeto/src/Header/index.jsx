@@ -20,12 +20,17 @@ function Header({ isLoggedIn, onLogout }) {
 <Link to="/CadastroPet" className="CadastroPet">Cadastro do Pet</Link>
 <Link to="/AgenVis" className="AgenVis">Agendamento do Pet</Link>
 <Link to="/Funcionario" className="Funcionario">Funcionário</Link>
+
 <button onClick={handleLogout} className="Sair">Sair</button>
 </>
      ) : (
 <>
 <Link to="/login" className="Login">Login</Link>
 <Link to="/usuario" className="Cadastro">Cadastro do Usuario</Link>
+
+
+<Link to="/listaPets" className="Funcionario">Lista Pets</Link>
+
 </>
      )}
 </header>

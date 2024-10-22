@@ -1,106 +1,110 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../services/api";
 import './CadastroPet.css';
 import Rodape from '../Rodape';
-const CadastroPet = () => {
- const [vRaca, setRaca] = useState('');
- const [vEspecie, setEspecie] = useState('');
- const [vCor, setCor] = useState('');
- const [vInf_DataNasc, setInf_DataNasc] = useState('');
- const [vPeso, setPeso] = useState('');
- const [vId, setUser_Id] = useState('');
- const [pets, setPets] = useState([]); // Estado para armazenar os pets
- const handleSubmit = async () => {
-   try {
-     const response = await api.post('/Info_Pet', {
-       infRaca: vRaca,
-       infEspecie: vEspecie,
-       infCor: vCor,
-       infDataNasc: vInf_DataNasc,
-       infPeso: vPeso,
-       user: {
-         userId: vId
-       }
-     });
-     console.log(response.data);
-     setPets([...pets, response.data]); // Adiciona o novo pet ao estado
-     // Limpa os campos após o envio
-     setRaca('');
-     setEspecie('');
-     setCor('');
-     setInf_DataNasc('');
-     setPeso('');
-     setUser_Id('');
-   } catch (error) {
-     console.log(error);
-   }
- };
- return (
-<div>
-<div className="divum">
-<h1>Faça Seu Cadastro</h1>
-</div>
-<div className="app-container">
-<div className="form-group">
-<label className="label">Raça</label>
-<br />
-<input type="text" value={vRaca} placeholder="Informe a Raça" onChange={(e) => setRaca(e.target.value)} />
-</div>
-<div className="form-group">
-<label className="label">Especie</label>
-<br />
-<input type="text" value={vEspecie} placeholder="Informe a Especie" onChange={(e) => setEspecie(e.target.value)} />
-</div>
-<div className="form-group">
-<label className="label">Cor</label>
-<br />
-<input type="text" value={vCor} placeholder="Informe a Cor" onChange={(e) => setCor(e.target.value)} />
-</div>
-<div className="form-group">
-<label className="label">Data de Nascimento</label>
-<br />
-<input type="text" value={vInf_DataNasc} placeholder="Informe a Data de Nascimento" onChange={(e) => setInf_DataNasc(e.target.value)} />
-</div>
-<div className="form-group">
-<label className="label">Peso</label>
-<br />
-<input type="text" value={vPeso} placeholder="Informe o Peso" onChange={(e) => setPeso(e.target.value)} />
-</div>
-<div className="form-group">
-<label className="label">ID do Usuário</label>
-<br />
-<input type="text" value={vId} placeholder="Informe o ID do Usuário" onChange={(e) => setUser_Id(e.target.value)} />
-</div>
-<div className="form-group">
-<button onClick={handleSubmit}>Criar Cadastro do Pet</button>
-</div>
-</div>
-<div className="pets-container">
-       {pets.map((pet, index) => (
-<div key={index} className="pet-card">
-<img src={pet.imageUrl || 'default-image.png'} alt="Pet" className="pet-image" />
-<div className="pet-description">
-<p><strong>Raça:</strong> {pet.infRaca}</p>
-<p><strong>Espécie:</strong> {pet.infEspecie}</p>
-<p><strong>Cor:</strong> {pet.infCor}</p>
-<p><strong>Data de Nascimento:</strong> {pet.infDataNasc}</p>
-<p><strong>Peso:</strong> {pet.infPeso}</p>
-</div>
-</div>
-       ))}
-</div>
-< br/>
-< br/>
-< br/>
-< br/>
-< br/>
-< br/>
 
-<div><Rodape /></div>
-</div>
- );
+const CadastroPet = () => {
+  const [vRaca, setRaca] = useState('');
+  const [vEspecie, setEspecie] = useState('');
+  const [vCor, setCor] = useState('');
+  const [vInf_DataNasc, setInf_DataNasc] = useState('');
+  const [vPeso, setPeso] = useState('');
+  const [vId, setUser_Id] = useState('');
+  const [pets, setPets] = useState([]);
+
+  useEffect(() => {
+    const storedPets = JSON.parse(localStorage.getItem('pets')) || [];
+    setPets(storedPets);
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await api.post('/Info_Pet', {
+        infRaca: vRaca,
+        infEspecie: vEspecie,
+        infCor: vCor,
+        infDataNasc: vInf_DataNasc,
+        infPeso: vPeso,
+        user: { userId: vId }
+      });
+
+      const novoPet = response.data;
+
+      if (novoPet) {
+        const updatedPets = [...pets, novoPet];
+        setPets(updatedPets);
+        localStorage.setItem('pets', JSON.stringify(updatedPets));
+        // Limpa os campos após o envio
+        setRaca('');
+        setEspecie('');
+        setCor('');
+        setInf_DataNasc('');
+        setPeso('');
+        setUser_Id('');
+      } else {
+        console.error('Formato de resposta inesperado:', novoPet);
+      }
+    } catch (error) {
+      console.log('Erro ao cadastrar pet:', error);
+    }
+  };
+
+  return (
+    <div>
+      <div className="divCadastropet">
+        <h1 className="Façaocadastrodopet">Faça o Cadastro do Seu Pet</h1>
+      </div>
+      <div className="app-container">
+        <div className="form-group1">
+          <label className="labelcadastrodopet">Raça</label>
+          <input type="text" value={vRaca} placeholder="Informe a Raça" onChange={(e) => setRaca(e.target.value)} />
+        </div>
+        <div className="form-group1">
+          <label className="labelcadastrodopet">Espécie</label>
+          <input type="text" value={vEspecie} placeholder="Informe a Espécie" onChange={(e) => setEspecie(e.target.value)} />
+        </div>
+        <div className="form-group1">
+          <label className="labelcadastrodopet">Cor</label>
+          <input type="text" value={vCor} placeholder="Informe a Cor" onChange={(e) => setCor(e.target.value)} />
+        </div>
+        <div className="form-group1">
+          <label className="labelcadastrodopet">Data de Nascimento</label>
+          <input type="text" value={vInf_DataNasc} placeholder="Informe a Data de Nascimento" onChange={(e) => setInf_DataNasc(e.target.value)} />
+        </div>
+        <div className="form-group1">
+          <label className="labelcadastrodopet">Peso</label>
+          <input type="text" value={vPeso} placeholder="Informe o Peso" onChange={(e) => setPeso(e.target.value)} />
+        </div>
+        <div className="form-group1">
+          <label className="labelcadastrodopet">ID do Usuário</label>
+          <input type="text" value={vId} placeholder="Informe o ID do Usuário" onChange={(e) => setUser_Id(e.target.value)} />
+        </div>
+        <div className="form-group1">
+          <button onClick={handleSubmit}>Criar Cadastro do Pet</button>
+        </div>
+      </div>
+      <div className="pets-container">
+        {pets.map((pet, index) => (
+          <div key={index} className="pet-card">
+            <img src={pet.imageUrl || 'default-image.png'} alt="Pet" className="pet-image" />
+            <div className="pet-description">
+              <p><strong>Raça:</strong> {pet.infRaca}</p>
+              <p><strong>Espécie:</strong> {pet.infEspecie}</p>
+              <p><strong>Cor:</strong> {pet.infCor}</p>
+              <p><strong>Data de Nascimento:</strong> {pet.infDataNasc}</p>
+              <p><strong>Peso:</strong> {pet.infPeso}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Rodape />
+    </div>
+  );
 };
+
 export default CadastroPet;
+
+
  
 /*import { useState } from "react";
 import api from "../../services/api";

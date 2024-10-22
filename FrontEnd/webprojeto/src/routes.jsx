@@ -9,6 +9,8 @@ import Duvidas from './pages/Duvidas';
 import AgenVis from './pages/AgenVis';
 import Login from './pages/Login';
 import Funcionario from './pages/Funcionario';
+import ListaPets from './pages/ListarPets';
+
 import Header from './Header'; // Importando diretamente de Header.jsx
 function RoutesApp() {
  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado de login
@@ -31,6 +33,7 @@ function RoutesApp() {
 <Route path="/agenVis" element={<AgenVis />} />
 <Route path="/login" element={<Login onLogin={handleLogin} />} /> {/* Passa a função para Login */}
 <Route path="/funcionario" element={<Funcionario />} />
+<Route path="/listaPets" element={<ListaPets />} />
 </Routes>
 </BrowserRouter>
  );

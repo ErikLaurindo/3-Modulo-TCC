@@ -1,95 +1,95 @@
-.app-container {
-    text-align: center;
-    background:  white;
-    float: left;
-    width:30%;
-    height:900px ;
-    margin-left: 20%;
-    overflow: hidden;
-    border-radius: 10%;
-    font-family: 'Pacifico', cursive;
-
-}
-
-.form-group{
-    margin-left: 0;
-    margin-top: 7%;
-    margin-bottom: 10%;
-    font-family: 'Pacifico', cursive;
+/* Container principal */
+.divum {
+   text-align: center;
+   background-color: white;
+   padding: 20px;
+   margin: 0 auto;
+   width: 50%;
+   border-radius: 10px;
+   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  /* Título principal */
+  .h1 {
+   font-family: 'Pacifico', cursive;
+   font-size: 36px;
+   color: #333;
+   margin-bottom: 20px;
+  }
+  /* Estiliza as mensagens de erro e confirmação */
+  .confirmation-message {
+   color: green;
+   font-size: 16px;
+   margin-bottom: 15px;
+  }
+  .error {
+   color: red;
+   font-size: 14px;
+   margin-top: 5px;
+  }
+  /* Estilo dos grupos de formulário */
+ 
+  .labelCadastro {
+   font-size: 16px;
+   font-weight: bold;
+  
    
+  }
+  /* Estilo dos inputs */
+  input, .ReactInputMask, select.genero {
+   width: 90%; /* Ajuste a largura para evitar que o input saia da tela ao mover */
+   padding: 10px;
+   border-radius: 5px;
+   border: 1px solid #ccc;
+   font-size: 16px;
+   box-sizing: border-box;
+   text-align: center; /* Move os inputs e selects ligeiramente para a direita */
+  }
+  /* Estilo específico para o campo de seleção */
+  .Cadastrogenero {
+   width: 300px;
+   padding: 10px;
+   border-radius: 5px;
+   height: 40px;
+   text-align: center;
+  }
+  /* Estilo do botão */
+  .buttonCriarConta {
+   padding: 5px 10px; /* Diminui o espaçamento interno do botão */
+   background-color: #007BFF;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   font-size: 14px; /* Diminui o tamanho da fonte */
+   cursor: pointer;
+   text-transform: uppercase;
+   transition: background-color 0.3s ease, transform 0.2s ease;
+   display: inline-block; /* Permite que o botão tenha largura baseada no conteúdo */
+   margin: 20px auto; /* Margem automática para centralizar o botão */
+}
    
-   
-}
-.divum{
-   
-    background: linear-gradient(to top, #00A3FF, white);
-   
-    width: 100%;
-    height:10px ;
-    display: flex;
-     justify-content: flex-start; /* Distribui os itens com espaço entre eles */
-     gap: 600px; /* Alinha verticalmente os itens ao centro */
-       
-       }
-       .h1{ margin-left: 400px;
 
-       }
-       .th {
-           margin-left: 300px;
-       }
-       
-      
-
-input{
-    
-    width: 300px;
-    padding: 7px;
-    
+  button:hover {
+   background-color: #0056b3;
+   transform: scale(1.05);
+  }
+  button:active {
+   background-color: #004494;
+   transform: scale(0.95);
+  }
+  button:focus {
+   outline: none;
+   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Estilo do rodapé */
+  .Rodape {
+   margin-top: 20px;
+   text-align: center;
+   width: 100%;
+  }
+.tudo {
+   text-align: center;
 }
-button {
-    padding: 0.75em 1.5em; /* Espaçamento interno */
-    background-color: #007BFF; /* Cor de fundo azul */
-    color: white; /* Cor do texto */
-    border: none; /* Remove a borda padrão */
-    border-radius: 4px; /* Cantos arredondados */
-    cursor: pointer; /* Muda o cursor para uma mãozinha */
-    font-size: 1em; /* Tamanho da fonte */
-    font-weight: bold; /* Fonte em negrito */
-    text-transform: uppercase; /* Transforma o texto em maiúsculas */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transição suave para a cor de fundo e efeito de transformação */
-    margin-top: 0; /* Margem superior zerada */
-}
-
-button:hover {
-    background-color: #0056b3; /* Cor de fundo quando o botão é sobreposto */
-    transform: scale(1.05); /* Leve aumento de tamanho ao passar o mouse */
-}
-
-button:active {
-    background-color: #004494; /* Cor de fundo quando o botão é clicado */
-    transform: scale(0.95); /* Leve redução de tamanho ao clicar */
-}
-
-button:focus {
-    outline: none; /* Remove o contorno padrão ao focar */
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Adiciona uma sombra ao redor do botão quando está em foco */
-}
-
-
-
-.label{
-    margin-right: 60%;
-}
-.imagem{
-    margin-left: 15%
-}
-.error {
-    color: red
-}
-.confirmation-message {
-    color : green
-}
-
-.UsuariosCadastrados {
-    margin-left: 60%;
+.DivCadastro {
+   margin-bottom: 3%;
 }

@@ -54,3 +54,15 @@
    margin-left: 40%;
 
 }
+.divagendamento
+ {
+     background: linear-gradient(to bottom, #00A3FF, white); 
+    text-align: center;
+    height: 100px;
+
+    }
+    .façaseuagendamento {
+      font-size: 40px;
+      font-family: 'Pacifico', cursive;
+
+    }

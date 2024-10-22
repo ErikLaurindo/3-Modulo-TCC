@@ -1,0 +1,112 @@
+.app-container {
+   text-align: center;
+   background: white;
+   width: 50%; /* Ajusta a largura do container */
+   margin: 0 auto; /* Centraliza o container na página */
+   padding: 20px; /* Adiciona padding interno ao container */
+   border-radius: 10px;
+   font-family: 'Pacifico', cursive;
+}
+.form-group {
+   margin-bottom: 15px; /* Reduz o espaçamento inferior entre os campos */
+   text-align: center; /* Alinha o texto dos labels à esquerda */
+}
+.form-group1 {
+      margin-bottom: 14px; /* Reduz o espaçamento inferior entre os campos */
+      text-align: center; /* Alinha o texto dos labels à esquerda */
+      margin-right: 10%; 
+}
+input, .ReactInputMask {
+   width: 100%; /* Faz os campos ocuparem 100% da largura disponível */
+   padding: 10px; /* Adiciona espaçamento interno nos campos */
+   border-radius: 5px;
+   border: 1px solid #ccc; /* Adiciona uma borda aos inputs */
+   font-size: 16px;
+   text-align: center;
+}
+select.genero {
+   width: auto; /* Define largura automática, baseada no conteúdo */
+   padding: 10px; /* Adiciona espaçamento interno ao select */
+   border-radius: 5px;
+   border: 1px solid #ccc;
+   font-size: 16px;
+}
+label {
+   font-size: 16px;
+   font-weight: bold;
+   display: block; /* Faz o label ocupar uma linha inteira */
+   margin-bottom: 5px; /* Pequeno espaço entre o label e o input */
+   text-align: center;
+}
+button {
+   padding: 10px 20px; /* Ajusta o espaçamento interno do botão */
+   background-color: #007BFF;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   font-size: 16px;
+   cursor: pointer;
+   text-transform: uppercase;
+   transition: background-color 0.3s ease, transform 0.2s ease;
+   width: auto; /* Faz o botão ajustar sua largura de acordo com o conteúdo */
+   display: inline-block; /* Evita que o botão ocupe 100% da largura do container */
+}
+button:hover {
+   background-color: #0056b3;
+   transform: scale(1.05);
+}
+button:active {
+   background-color: #004494;
+   transform: scale(0.95);
+}
+button:focus {
+   outline: none;
+   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+}
+.error {
+   color: red;
+   font-size: 14px;
+   margin-top: 5px;
+}
+.confirmation-message {
+   color: green;
+   font-size: 16px;
+   margin-bottom: 15px;
+}
+.UsuariosCadastrados {
+   margin-top: 20px; /* Espaçamento entre o formulário e a tabela */
+   width: 100%;
+   text-align: left; /* Alinha o título "Usuários Cadastrados" à esquerda */
+}
+table {
+   width: 100%; /* A tabela ocupa a largura total */
+   border-collapse: collapse; /* Remove os espaçamentos entre as células */
+   margin-top: 10px; /* Espaçamento entre o título e a tabela */
+   position: relative; /* Faz a tabela ser posicionada normalmente no fluxo da página */
+}
+th, td {
+   border: 1px solid #ddd;
+   padding: 10px; /* Ajusta o espaçamento dentro das células */
+   text-align: left; /* Alinha o texto à esquerda */
+}
+th {
+   background-color: #f2f2f2;
+}
+.Rodape {
+   position: relative;
+   bottom: 0;
+   width: 100%;
+   margin-top: 20px;
+}
+.divCadastropet
+ {
+     background: linear-gradient(to bottom, #00A3FF, white); 
+    text-align: center;
+    height: 100px;
+
+    }
+    .Façaocadastrodopet {
+      font-size: 40px;
+      font-family: 'Pacifico', cursive;
+
+    }

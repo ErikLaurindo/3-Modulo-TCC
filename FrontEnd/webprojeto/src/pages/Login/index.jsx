@@ -24,7 +24,14 @@ function Login({ onLogin }) {
    }
  };
  return (
-<div>
+<div className='TelaLogin'>
+    <div className='divumlogin'>
+        <h1 className="h1">FAÇA SEU LOGIN</h1>
+        <h1> 
+          
+        </h1>
+    </div>
+
 <form onSubmit={handleLogin}>
 <label>
          Email:
