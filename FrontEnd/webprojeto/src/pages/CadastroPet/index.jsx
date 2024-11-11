@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import api from "../../services/api";
 import './CadastroPet.css';
 import Rodape from '../Rodape';
@@ -10,12 +10,6 @@ const CadastroPet = () => {
   const [vInf_DataNasc, setInf_DataNasc] = useState('');
   const [vPeso, setPeso] = useState('');
   const [vId, setUser_Id] = useState('');
-  const [pets, setPets] = useState([]);
-
-  useEffect(() => {
-    const storedPets = JSON.parse(localStorage.getItem('pets')) || [];
-    setPets(storedPets);
-  }, []);
 
   const handleSubmit = async () => {
     try {
@@ -31,9 +25,22 @@ const CadastroPet = () => {
       const novoPet = response.data;
 
       if (novoPet) {
-        const updatedPets = [...pets, novoPet];
-        setPets(updatedPets);
-        localStorage.setItem('pets', JSON.stringify(updatedPets));
+        // Verifique se os campos necessários existem na resposta
+        const petToStore = {
+          infRaca: novoPet.infRaca || vRaca,
+          infEspecie: novoPet.infEspecie || vEspecie,
+          infCor: novoPet.infCor || vCor,
+          infDataNasc: novoPet.infDataNasc || vInf_DataNasc,
+          infPeso: novoPet.infPeso || vPeso,
+        };
+
+        const storedPets = JSON.parse(localStorage.getItem('pets')) || [];
+        storedPets.push(petToStore);
+        localStorage.setItem('pets', JSON.stringify(storedPets));
+
+        // Dispara um evento para notificar que pets foram atualizados
+        window.dispatchEvent(new Event('petsUpdated'));
+
         // Limpa os campos após o envio
         setRaca('');
         setEspecie('');
@@ -83,26 +90,13 @@ const CadastroPet = () => {
           <button onClick={handleSubmit}>Criar Cadastro do Pet</button>
         </div>
       </div>
-      <div className="pets-container">
-        {pets.map((pet, index) => (
-          <div key={index} className="pet-card">
-            <img src={pet.imageUrl || 'default-image.png'} alt="Pet" className="pet-image" />
-            <div className="pet-description">
-              <p><strong>Raça:</strong> {pet.infRaca}</p>
-              <p><strong>Espécie:</strong> {pet.infEspecie}</p>
-              <p><strong>Cor:</strong> {pet.infCor}</p>
-              <p><strong>Data de Nascimento:</strong> {pet.infDataNasc}</p>
-              <p><strong>Peso:</strong> {pet.infPeso}</p>
-            </div>
-          </div>
-        ))}
-      </div>
       <Rodape />
     </div>
   );
 };
 
 export default CadastroPet;
+
 
 
  

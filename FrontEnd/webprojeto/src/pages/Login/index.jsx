@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importar o hook useNavigate
 import './Login.css';
@@ -10,13 +10,14 @@ function Login({ onLogin }) {
  const handleLogin = async (e) => {
    e.preventDefault();
    try {
-     const response = await axios.post('http://localhost:8080/login', {
+     const response = await api.post('http://localhost:8080/login', {
        userEmail: email,
        userSenha: senha
      });
      if (response.status === 200) {
        onLogin(); // Atualiza o estado de isLoggedIn no componente pai
        navigate('/'); // Redireciona para a página Home
+       sessionStorage.setItem("userId", response.data.id);
      }
    } catch (err) {
      setError('Email ou senha incorretos.');

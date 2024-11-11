@@ -1,6 +1,5 @@
 
 
-
 import { useState, useEffect } from 'react';
 import './AgenVis.css';
 import Rodape from '../Rodape';
@@ -36,22 +35,23 @@ const AgenVis = () => {
     const novoAgendamento = {
       agenTipo: vTipo,
       agenDataAgen: dataFormatada,
-      infoPet:{ petId: vPetId}
-      //   petId: {Pet_id: vPetId}
+      infoPet: { petId: vPetId }
     };
 
+    console.log("Agendamento enviado:", novoAgendamento); // Log para ver os dados enviados
+
     try {
-      // Requisição POST para a API
       const response = await api.post('/Agen_Vis', novoAgendamento);
-      
       const agendamentoCriado = response.data;
 
-      // Atualiza a lista local de agendamentos e armazena no localStorage
+      console.log("Agendamento criado:", agendamentoCriado); // Log para ver os dados retornados
+
       const updatedAgendamentos = [...agendamentos, agendamentoCriado];
       setAgendamentos(updatedAgendamentos);
       localStorage.setItem('agendamentos', JSON.stringify(updatedAgendamentos));
 
-      // Limpa os campos após o envio
+      window.dispatchEvent(new Event('agendamentosUpdated'));
+
       setTipo('');
       setAgen_DataAgen('');
       setPetId('');
@@ -110,5 +110,3 @@ const AgenVis = () => {
 };
 
 export default AgenVis;
-
-

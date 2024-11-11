@@ -1,43 +1,54 @@
-.listagem-container-custom {
+.listagem-container {
   font-family: Arial, sans-serif;
   padding: 20px;
-  background-color: #f9f9f9; /* Cor de fundo suave */
-  border-radius: 8px; /* Bordas arredondadas */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
-  max-width: 600px; /* Largura máxima para centralizar */
-  margin: 20px auto; /* Margem auto para centralizar no meio da tela */
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 20px auto;
 }
 
-.listagem-title {
-  text-align: center; /* Centraliza o título */
-  color: #333; /* Cor do texto */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.listagem-subtitle {
-  margin-top: 30px; /* Margem acima de cada subtítulo */
-  color: #444; /* Cor do texto dos subtítulos */
-  border-bottom: 2px solid #007bff; /* Linha abaixo do subtítulo */
-  padding-bottom: 5px; /* Espaçamento abaixo do subtítulo */
+h2 {
+  margin-top: 30px;
+  color: #444;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
 }
 
 .listagem-info {
-  margin: 10px 0; /* Espaçamento entre os blocos de informações */
-  padding: 10px; /* Espaçamento interno */
-  border: 1px solid #ddd; /* Borda leve */
-  border-radius: 5px; /* Bordas arredondadas para os blocos */
-  background-color: #fff; /* Cor de fundo para os blocos */
+  margin: 15px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: box-shadow 0.3s;
+}
+
+.listagem-info:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .listagem-strong {
-  color: #007bff; /* Cor do texto em negrito */
+  color: #007bff;
 }
 
 .listagem-paragraph {
-  margin: 5px 0; /* Margem entre os parágrafos */
-  color: #555; /* Cor do texto */
+  margin: 5px 0;
+  color: #555;
 }
 
 .listagem-footer {
-  margin-top: 30px; /* Margem acima do rodapé */
-  text-align: center; /* Centraliza o rodapé */
+  margin-top: 30px;
+  text-align: center;
+  color: #777;
+}
+
+.listagem-button {
+  margin-left: 15px; /* Ajuste a distância do botão "Excluir" */
 }
