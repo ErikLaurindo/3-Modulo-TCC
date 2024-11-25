@@ -25,11 +25,11 @@ function Header({ isLoggedIn, onLogout }) {
 </>
      ) : (
 <>
-<Link to="/login" className="Login">Login</Link>
-<Link to="/usuario" className="Cadastro">Cadastro do Usuario</Link>
+<Link to="/login" className="Login">Login dos Usuarios</Link>
+<Link to="/usuario" className="Cadastro">Cadastro dos Usuarios</Link>
 
 
-<Link to="/listaPets" className="Funcionario">Lista Pets</Link>
+<Link to="/listaPets" className="Funcionario">Lista de Edições</Link>
 
 </>
      )}

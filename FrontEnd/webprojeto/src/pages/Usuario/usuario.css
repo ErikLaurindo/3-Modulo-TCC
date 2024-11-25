@@ -67,6 +67,21 @@
    margin: 20px auto; /* Margem automática para centralizar o botão */
 }
    
+/* Overlay do Modal */
+.modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+} 
+/* Overlay do Modal */
+.modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: rgba(0, 0, 0,)
+} 
 
   button:hover {
    background-color: #0056b3;

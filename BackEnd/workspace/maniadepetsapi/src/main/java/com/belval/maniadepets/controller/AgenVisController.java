@@ -54,23 +54,47 @@ public class AgenVisController {
        }
    }
    @PutMapping("/{id}")
-   public ResponseEntity<Object> updateAgenVis(@PathVariable Integer id, @RequestBody AgenVis agenVisDetails) {
+   public ResponseEntity<Object> atualizarAgendamento(@PathVariable(value = "id") Integer id, @RequestBody AgenVis agenVisDetails) {
        try {
-           Optional<AgenVis> agenVis = agenVisRepository.findById(id);
-           if (agenVis.isPresent()) {
-               AgenVis existingAgenVis = agenVis.get();
-               existingAgenVis.setAgenTipo(agenVisDetails.getAgenTipo());
-               existingAgenVis.setAgenDataAgen(agenVisDetails.getAgenDataAgen());
-               existingAgenVis.setInfoPet(agenVisDetails.getInfoPet());
-               AgenVis updatedAgenVis = agenVisRepository.save(existingAgenVis);
-               return ResponseEntity.status(HttpStatus.OK).body(updatedAgenVis);
-           } else {
+           System.out.println("Dados recebidos: " + agenVisDetails);  // Log para depuração
+
+           // Busca o agendamento pelo ID
+           Optional<AgenVis> agenVisEncontrado = agenVisRepository.findById(id);
+           if (agenVisEncontrado.isEmpty()) {
                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Agendamento não encontrado.");
            }
+
+           AgenVis agendamentoExistente = agenVisEncontrado.get();
+
+           // Atualiza os campos do agendamento
+           if (agenVisDetails.getAgenTipo() != null) {
+               agendamentoExistente.setAgenTipo(agenVisDetails.getAgenTipo());
+           }
+           if (agenVisDetails.getAgenDataAgen() != null) {
+               agendamentoExistente.setAgenDataAgen(agenVisDetails.getAgenDataAgen());
+           }
+
+           // Mantém o mesmo InfoPet (não altera a chave estrangeira)
+           // Não fazemos nada com o campo `InfoPet` para garantir que o pet associado ao agendamento não será alterado.
+           // O `InfoPet` do agendamento será mantido conforme estava antes, mesmo que o `InfoPet` seja enviado na requisição.
+           if (agenVisDetails.getInfoPet() != null) {
+               // Não atualizamos o InfoPet para garantir que a chave estrangeira seja preservada.
+               // agendamentoExistente.setInfoPet(agenVisDetails.getInfoPet());  // Comentado para não alterar o pet
+           }
+
+           // Salva o agendamento atualizado no banco
+           agenVisRepository.save(agendamentoExistente);
+
+           // Retorna um status de sucesso com uma mensagem
+           return ResponseEntity.status(HttpStatus.OK).body("Agendamento atualizado com sucesso.");
+
        } catch (Exception e) {
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar agendamento.");
+           // Em caso de erro, retorna um status 500 com a mensagem de erro
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar agendamento");
        }
    }
+
+
    @DeleteMapping("/{id}")
    public ResponseEntity<String> deleteAgenVis(@PathVariable Integer id) {
        try {

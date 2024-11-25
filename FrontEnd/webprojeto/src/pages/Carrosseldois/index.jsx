@@ -34,13 +34,7 @@ const Carrosseldois = () => {
       <Slider {...settings}>
 
 
-        <div className='teste'>
-          <div className='imagemum' > <img src={imagem} />  </div>
-          <div className='texto'>
-            <h1>Andamento Ao vivo</h1>
-            <h2 > "Com este app de pets, você pode acompanhar ao vivo os exames e consultas do seu animalzinho. Agora, você pode ver em tempo real o momento exato em que seu gato percebe que a balança do veterinário não é uma cama nova e confortável. Drama garantido!"</h2>
-          </div>
-        </div>
+      
         
         <div>
           <div className='imagemum' > <img src={imagem2} />  </div>

@@ -4,9 +4,12 @@
    padding: 20px;
    background: linear-gradient(to top, #00A3FF, white);
   }
-.select {
-    padding: 8px;
-    width: 100%;
+.selectagen {
+    
+    width: 300px;
+    height: 40px;
+    border-radius: 5%;
+
 
 }
   .cadastrop > div {

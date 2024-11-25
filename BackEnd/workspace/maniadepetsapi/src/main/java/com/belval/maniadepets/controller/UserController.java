@@ -1,5 +1,6 @@
 package com.belval.maniadepets.controller;
 
+import java.util.List;  // Certifique-se de importar o tipo List
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,32 @@ public class UserController {
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar usuário");
        }
    }
+   
 
+
+   @GetMapping("/users")
+   public ResponseEntity<List<User>> buscaTodosUsuarios() {
+       try {
+           List<User> users = userRepository.findAll(); // Busca todos os usuários no banco
+           return ResponseEntity.ok(users); // Retorna a lista de usuários
+       } catch (Exception e) {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Erro
+       }
+   }
+
+
+
+   /*@GetMapping("/users")
+   public ResponseEntity<String> buscaEntity(@RequestBody User user) {
+       try {
+           userRepository.save(user);
+           return ResponseEntity.status(HttpStatus.OK).body("Sucesso");
+       } catch (Exception e) {
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar usuário");
+       }
+   }*/
+   
+   
    // Buscar usuário por ID
    @GetMapping("/users/{id}")
    public ResponseEntity<Object> buscarProdutoPorId(@PathVariable Integer id) {
@@ -61,6 +87,8 @@ public class UserController {
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao apagar usuário");
        }
    }
+   
+  
 
    // Atualizar dados do usuário por ID
    @PutMapping("/users/{id}")
@@ -74,8 +102,12 @@ public class UserController {
            }
 
            User usuarioExistente = userEncontrado.get();
+           // Atualiza todos os campos
            usuarioExistente.setUserName(user.getUserName());
            usuarioExistente.setUserEmail(user.getUserEmail());
+           usuarioExistente.setUserNasc(user.getUserNasc());
+           usuarioExistente.setUserGenero(user.getUserGenero());
+           usuarioExistente.setUserSenha(user.getUserSenha());
 
            userRepository.save(usuarioExistente);
 
@@ -85,6 +117,7 @@ public class UserController {
        }
    }
 }
+
 
 
 /*package com.belval.maniadepets.controller;

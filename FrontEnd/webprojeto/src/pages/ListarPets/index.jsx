@@ -1,37 +1,33 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import './listaPets.css';
-import Rodape from '../Rodape';
-import api from "../../services/api";  // Sua API configurada
+import './listaPets.css';  // Estilos para a listagem
+import Rodape from '../Rodape';  // Rodapé
+import api from "../../services/api";  // API configurada
 
 const Listagem = () => {
-  const [usuarios, setUsuarios] = useState([]);
+  // Estado para armazenar os pets, usuários e agendamentos
   const [pets, setPets] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   const [agendamentos, setAgendamentos] = useState([]);
-  const [editingUser, setEditingUser] = useState(null);
-  const [editedUserData, setEditedUserData] = useState({});
-  const [editingPet, setEditingPet] = useState(null);
-  const [editedPetData, setEditedPetData] = useState({});
-  const [editingAgendamento, setEditingAgendamento] = useState(null);
-  const [editedAgendamentoData, setEditedAgendamentoData] = useState({});
+
+  // Estados de carregamento e erro
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Carregar os dados ao montar o componente (GET da API)
+  // Estados para edição de pets, usuários e agendamentos
+  const [editingItem, setEditingItem] = useState(null);  // Controle do item sendo editado
+  const [editedData, setEditedData] = useState({});  // Dados editados
+
+  // Carregar dados ao montar o componente
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
       try {
-        // Requisições à API
-        const usuariosResponse = await api.get('/users');
-        const petsResponse = await api.get('/pets');
-        const agendamentosResponse = await api.get('/agendamentos');
-        
-        // Atualizando o estado com os dados obtidos da API
-        setUsuarios(usuariosResponse.data);
+        const petsResponse = await api.get('/Info_Pet');  // Rota para pets
+        const usuariosResponse = await api.get('/users');  // Rota para usuários
+        const agendamentosResponse = await api.get('/Agen_Vis');  // Rota para agendamentos
         setPets(petsResponse.data);
+        setUsuarios(usuariosResponse.data);
         setAgendamentos(agendamentosResponse.data);
-
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
         setErrorMessage("Erro ao carregar os dados da API");
@@ -39,173 +35,89 @@ const Listagem = () => {
         setLoading(false);
       }
     };
-
     loadData();
-  }, []); // A requisição é feita apenas uma vez quando o componente é montado
+  }, []);
 
-  // Função para edição de usuário
-  const startEditingUser = (usuario) => {
-    setEditingUser(usuario);
-    setEditedUserData(usuario);
+  // Funções de edição
+  const startEditing = (item, type) => {
+    setEditingItem({ item, type });
+    setEditedData(item);  // Copia os dados do item para edição
+    document.getElementById("editModal").style.display = "block";
   };
 
-  const handleUserEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditedUserData({ ...editedUserData, [name]: value });
-  };
-
-  const saveEditedUser = async () => {
-    if (!validateEmail(editedUserData.userEmail)) {
-      alert("Por favor, insira um e-mail válido.");
-      return;
-    }
-
-    setLoading(true);
+  const saveEditedItem = async () => {
+    const { type, item } = editingItem;
+    let response;
 
     try {
-      const userId = editedUserData.id;  // ID do usuário para edição
-
-      const response = await api.put(`/users/${userId}`, {
-        userName: editedUserData.userName,
-        userEmail: editedUserData.userEmail
-      });
-
-      if (response.status === 200) {
-        setUsuarios(prevUsuarios =>
-          prevUsuarios.map(usuario =>
-            usuario.id === editedUserData.id ? { ...usuario, ...editedUserData } : usuario
-          )
-        );
-        setEditingUser(null);
-        alert('Usuário atualizado com sucesso!');
-      } else {
-        alert('Erro ao atualizar usuário: ' + response.data);
+      if (type === 'pet') {
+        response = await api.put(`/Info_Pet/${item.petId}`, editedData);
+        if (response.status === 200) {
+          setPets(pets.map(pet => pet.petId === item.petId ? { ...pet, ...editedData } : pet));
+          alert('Pet atualizado com sucesso!');
+        }
+      } else if (type === 'user') {
+        response = await api.put(`/users/${item.userId}`, editedData);
+        if (response.status === 200) {
+          setUsuarios(usuarios.map(usuario => usuario.userId === item.userId ? { ...usuario, ...editedData } : usuario));
+          alert('Usuário atualizado com sucesso!');
+        }
+      } else if (type === 'agendamento') {
+        response = await api.put(`/Agen_Vis/${item.agenId}`, editedData);
+        if (response.status === 200) {
+          setAgendamentos(agendamentos.map(agendamento => agendamento.agenId === item.agenId ? { ...agendamento, ...editedData } : agendamento));
+          alert('Agendamento atualizado com sucesso!');
+        }
       }
     } catch (error) {
-      console.error("Erro ao atualizar usuário:", error);
-      alert("Houve um erro ao atualizar o usuário. Por favor, tente novamente.");
+      console.error("Erro ao salvar item:", error);
+      alert('Erro ao atualizar');
     } finally {
-      setLoading(false);
+      setEditingItem(null);
+      setEditedData({});
+      document.getElementById("editModal").style.display = "none";
     }
   };
 
-  // Funções para edição de pet
-  const startEditingPet = (pet) => {
-    setEditingPet(pet);
-    setEditedPetData(pet);
+  const closeModal = () => {
+    document.getElementById("editModal").style.display = "none";
+    setEditingItem(null);
+    setEditedData({});
   };
 
-  const handlePetEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditedPetData({ ...editedPetData, [name]: value });
-  };
-
-  const saveEditedPet = async () => {
-    setLoading(true);
+  // Função para deletar um item
+  const deleteItem = async (id, type) => {
+    let response;
 
     try {
-      const response = await api.put(`/pets/${editedPetData.id}`, editedPetData);
-      
-      if (response.status === 200) {
-        const updatedPets = pets.map(pet => pet.id === editedPetData.id ? editedPetData : pet);
-        setPets(updatedPets);
-        setEditingPet(null);
-        alert('Pet atualizado com sucesso!');
-      } else {
-        alert('Erro ao atualizar pet: ' + response.data);
+      if (type === 'pet') {
+        response = await api.delete(`/Info_Pet/${id}`);
+        if (response.status === 200) {
+          setPets(pets.filter(pet => pet.petId !== id));
+          alert('Pet deletado com sucesso!');
+        }
+      } else if (type === 'user') {
+        response = await api.delete(`/users/${id}`);
+        if (response.status === 200) {
+          setUsuarios(usuarios.filter(usuario => usuario.userId !== id));
+          alert('Usuário deletado com sucesso!');
+        }
+      } else if (type === 'agendamento') {
+        response = await api.delete(`/Agen_Vis/${id}`);
+        if (response.status === 200) {
+          setAgendamentos(agendamentos.filter(agendamento => agendamento.agenId !== id));
+          alert('Agendamento deletado com sucesso!');
+        }
       }
     } catch (error) {
-      console.error("Erro ao atualizar pet:", error);
-      alert("Houve um erro ao atualizar o pet. Por favor, tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Funções para edição de agendamento
-  const startEditingAgendamento = (agendamento) => {
-    setEditingAgendamento(agendamento);
-    setEditedAgendamentoData(agendamento);
-  };
-
-  const handleAgendamentoChange = (e) => {
-    const { name, value } = e.target;
-    setEditedAgendamentoData({ ...editedAgendamentoData, [name]: value });
-  };
-
-  const saveEditedAgendamento = async () => {
-    setLoading(true);
-
-    try {
-      const response = await api.put(`/agendamentos/${editedAgendamentoData.id}`, editedAgendamentoData);
-
-      if (response.status === 200) {
-        const updatedAgendamentos = agendamentos.map(agendamento =>
-          agendamento.id === editedAgendamentoData.id ? editedAgendamentoData : agendamento
-        );
-        setAgendamentos(updatedAgendamentos);
-        setEditingAgendamento(null);
-        alert('Agendamento atualizado com sucesso!');
-      } else {
-        alert('Erro ao atualizar agendamento: ' + response.data);
-      }
-    } catch (error) {
-      console.error("Erro ao atualizar agendamento:", error);
-      alert("Houve um erro ao atualizar o agendamento. Por favor, tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Funções para deletar
-  const deleteUser = async (id) => {
-    try {
-      const response = await api.delete(`/users/${id}`);
-      if (response.status === 200) {
-        setUsuarios(usuarios.filter(usuario => usuario.id !== id));
-        alert('Usuário deletado com sucesso!');
-      } else {
-        alert('Erro ao deletar usuário');
-      }
-    } catch (error) {
-      console.error("Erro ao deletar usuário:", error);
-      alert("Erro ao deletar usuário.");
-    }
-  };
-
-  const deletePet = async (id) => {
-    try {
-      const response = await api.delete(`/pets/${id}`);
-      if (response.status === 200) {
-        setPets(pets.filter(pet => pet.id !== id));
-        alert('Pet deletado com sucesso!');
-      } else {
-        alert('Erro ao deletar pet');
-      }
-    } catch (error) {
-      console.error("Erro ao deletar pet:", error);
-      alert("Erro ao deletar pet.");
-    }
-  };
-
-  const deleteAgendamento = async (id) => {
-    try {
-      const response = await api.delete(`/agendamentos/${id}`);
-      if (response.status === 200) {
-        setAgendamentos(agendamentos.filter(agendamento => agendamento.id !== id));
-        alert('Agendamento deletado com sucesso!');
-      } else {
-        alert('Erro ao deletar agendamento');
-      }
-    } catch (error) {
-      console.error("Erro ao deletar agendamento:", error);
-      alert("Erro ao deletar agendamento.");
+      console.error(`Erro ao deletar ${type}:`, error);
+      alert(`Erro ao deletar ${type}`);
     }
   };
 
   return (
     <div className="listagem-container">
-      <h1>Listagem de Cadastros</h1>
+      <center><h1>Listagem de Pets, Usuários e Agendamentos</h1></center>
 
       {errorMessage && <div className="error-message">{errorMessage}</div>}
 
@@ -213,53 +125,214 @@ const Listagem = () => {
         <div>Carregando...</div>
       ) : (
         <>
-          {/* Usuários */}
-          <div className="listagem">
-            <h2>Usuários</h2>
-            <ul>
-              {usuarios.map((usuario) => (
-                <li key={usuario.id}>
-                  <span>{usuario.userName} ({usuario.userEmail})</span>
-                  <button onClick={() => startEditingUser(usuario)}>Editar</button>
-                  <button onClick={() => deleteUser(usuario.id)}>Deletar</button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Modal de Edição */}
+          {editingItem && (
+            <div id="editModal" className="modal">
+              <div className="modal-content">
+                <span className="close" onClick={closeModal}>&times;</span>
+                <h2>{`Editar ${editingItem.type === 'pet' ? 'Pet' : editingItem.type === 'user' ? 'Usuário' : 'Agendamento'}`}</h2>
 
-          {/* Pets */}
-          <div className="listagem">
-            <h2>Pets</h2>
-            <ul>
-              {pets.map((pet) => (
-                <li key={pet.id}>
-                  <span>{pet.infRaca} ({pet.infEspecie})</span>
-                  <button onClick={() => startEditingPet(pet)}>Editar</button>
-                  <button onClick={() => deletePet(pet.id)}>Deletar</button>
-                </li>
-              ))}
-            </ul>
-          </div>
+                {/* Formulário de edição */}
+                {editingItem.type === 'pet' && (
+                  <>
+                    <div>
+                      <label>Raça</label>
+                      <input
+                        type="text"
+                        name="infRaca"
+                        value={editedData.infRaca || ''}
+                        onChange={(e) => setEditedData({ ...editedData, infRaca: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Espécie</label>
+                      <input
+                        type="text"
+                        name="infEspecie"
+                        value={editedData.infEspecie || ''}
+                        onChange={(e) => setEditedData({ ...editedData, infEspecie: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Cor</label>
+                      <input
+                        type="text"
+                        name="infCor"
+                        value={editedData.infCor || ''}
+                        onChange={(e) => setEditedData({ ...editedData, infCor: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Data de Nascimento</label>
+                      <input
+                        type="text"
+                        name="infDataNasc"
+                        value={editedData.infDataNasc || ''}
+                        onChange={(e) => setEditedData({ ...editedData, infDataNasc: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Peso</label>
+                      <input
+                        type="text"
+                        name="infPeso"
+                        value={editedData.infPeso || ''}
+                        onChange={(e) => setEditedData({ ...editedData, infPeso: e.target.value })}
+                      />
+                    </div>
+                  </>
+                )}
+                {editingItem.type === 'user' && (
+                  <>
+                    <div>
+                      <label>Nome</label>
+                      <input
+                        type="text"
+                        name="userName"
+                        value={editedData.userName || ''}
+                        onChange={(e) => setEditedData({ ...editedData, userName: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Email</label>
+                      <input
+                        type="text"
+                        name="userEmail"
+                        value={editedData.userEmail || ''}
+                        onChange={(e) => setEditedData({ ...editedData, userEmail: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Data de Nascimento</label>
+                      <input
+                        type="text"
+                        name="userNasc"
+                        value={editedData.userNasc || ''}
+                        onChange={(e) => setEditedData({ ...editedData, userNasc: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Gênero</label>
+                      <input
+                        type="text"
+                        name="userGenero"
+                        value={editedData.userGenero || ''}
+                        onChange={(e) => setEditedData({ ...editedData, userGenero: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Senha</label>
+                      <input
+                        type="text"
+                        name="userSenha"
+                        value={editedData.userSenha || ''}
+                        onChange={(e) => setEditedData({ ...editedData, userSenha: e.target.value })}
+                      />
+                    </div>
+                  </>
+                )}
+                {editingItem.type === 'agendamento' && (
+                  <>
+                    <div>
+                      <label>Tipo do Serviço</label>
+                      <input
+                        type="text"
+                        name="agenTipo"
+                        value={editedData.agenTipo || ''}
+                        onChange={(e) => setEditedData({ ...editedData, agenTipo: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label>Data do Agendamento</label>
+                      <input
+                        type="text"
+                        name="agenDataAgen"
+                        value={editedData.agenDataAgen || ''}
+                        onChange={(e) => setEditedData({ ...editedData, agenDataAgen: e.target.value })}
+                      />
+                    </div>
+                  </>
+                )}
+                <div>
+                  <button onClick={saveEditedItem}>Salvar</button>
+                  <button onClick={closeModal}>Cancelar</button>
+                </div>
+              </div>
+            </div>
+          )}
 
-          {/* Agendamentos */}
+          {/* Listagem de Pets, Usuários e Agendamentos */}
           <div className="listagem">
-            <h2>Agendamentos</h2>
-            <ul>
-              {agendamentos.map((agendamento) => (
-                <li key={agendamento.id}>
-                  <span>{agendamento.agenTipo} ({agendamento.agenDataAgen})</span>
-                  <button onClick={() => startEditingAgendamento(agendamento)}>Editar</button>
-                  <button onClick={() => deleteAgendamento(agendamento.id)}>Deletar</button>
-                </li>
-              ))}
-            </ul>
+            <div className="listagem-coluna">
+              <h2>Pets</h2>
+              <ul>
+                {pets.map((pet) => (
+                  <li key={pet.petId}>
+                    <div className="pet-info">
+                      <p>ID: {pet.petId}</p> {/* Exibe o ID */}
+                      <p>Raça: {pet.infRaca}</p>
+                      <p>Espécie: {pet.infEspecie}</p>
+                      <p>Cor: {pet.infCor}</p>
+                      <p>Data de Nascimento: {pet.infDataNasc}</p>
+                      <p>Peso: {pet.infPeso}</p>
+                    </div>
+                    <button onClick={() => startEditing(pet, 'pet')}>Editar</button>
+                    <button onClick={() => deleteItem(pet.petId, 'pet')}>Excluir</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="listagem-coluna">
+              <h2>Usuários</h2>
+              <ul>
+                {usuarios.map((usuario) => (
+                  <li key={usuario.userId}>
+                    <div className="usuario-info">
+                      <p>ID: {usuario.userId}</p> {/* Exibe o ID */}
+                      <p>Nome: {usuario.userName}</p>
+                      <p>Email: {usuario.userEmail}</p>
+                      <p>Data de Nascimento: {usuario.userNasc}</p>
+                      <p>Gênero: {usuario.userGenero}</p>
+                    </div>
+                    <button onClick={() => startEditing(usuario, 'user')}>Editar</button>
+                    <button onClick={() => deleteItem(usuario.userId, 'user')}>Excluir</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="listagem-coluna">
+              <h2>Agendamentos</h2>
+              <ul>
+                {agendamentos.map((agendamento) => (
+                  <li key={agendamento.agenId}>
+                    <div className="agendamento-info">
+                      <p>ID: {agendamento.agenId}</p> {/* Exibe o ID */}
+                      <p>Tipo do Serviço: {agendamento.agenTipo}</p>
+                      <p>Data: {agendamento.agenDataAgen}</p>
+                    </div>
+                    <button onClick={() => startEditing(agendamento, 'agendamento')}>Editar</button>
+                    <button onClick={() => deleteItem(agendamento.agenId, 'agendamento')}>Excluir</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </>
       )}
-
-      <Rodape />
     </div>
   );
 };
 
 export default Listagem;
+
+
+
+
+
+
+
+
+
+

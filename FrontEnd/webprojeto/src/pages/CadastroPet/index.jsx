@@ -3,6 +3,30 @@ import api from "../../services/api";
 import './CadastroPet.css';
 import Rodape from '../Rodape';
 
+// Função para aplicar a máscara na data
+const aplicarMascaraData = (valor) => {
+  // Remove qualquer coisa que não seja número
+  valor = valor.replace(/\D/g, "");
+
+  // Aplica a máscara DD/MM/YYYY
+  if (valor.length <= 2) {
+    return valor.replace(/(\d{2})/, "$1");
+  } else if (valor.length <= 4) {
+    return valor.replace(/(\d{2})(\d{2})/, "$1/$2");
+  } else {
+    return valor.replace(/(\d{2})(\d{2})(\d{4})/, "$1/$2/$3");
+  }
+};
+
+// Função para validar se a data é no futuro
+const validarDataNascimento = (data) => {
+  const dataAtual = new Date();
+  const partesData = data.split('/');
+  const dataNascimento = new Date(`${partesData[2]}-${partesData[1]}-${partesData[0]}`);
+
+  return dataNascimento <= dataAtual;
+};
+
 const CadastroPet = () => {
   const [vRaca, setRaca] = useState('');
   const [vEspecie, setEspecie] = useState('');
@@ -10,8 +34,48 @@ const CadastroPet = () => {
   const [vInf_DataNasc, setInf_DataNasc] = useState('');
   const [vPeso, setPeso] = useState('');
   const [vId, setUser_Id] = useState('');
+  const [erroData, setErroData] = useState('');
+
+  // Dados das raças para diferentes espécies
+  const racasPorEspecie = {
+    Cão: ["Labrador", "Bulldog", "Poodle", "Chihuahua", "Beagle", "Pastor Alemão"],
+    Gato: ["Siamês", "Persa", "Maine Coon", "Bengal", "Sphynx"],
+    Coelho: ["Mini Rex", "Holland Lop", "Angorá", "Lionhead"],
+    Pássaro: ["Canário", "Periquito", "Cacatua", "Papagaio"]
+  };
+
+  // Função para atualizar a seleção de raça de acordo com a espécie
+  const handleEspecieChange = (e) => {
+    setEspecie(e.target.value);
+    setRaca(''); // Limpa o campo de raça quando a espécie mudar
+  };
+
+  // Função para atualizar o peso, garantindo que o valor seja o máximo da faixa
+  const handlePesoChange = (e) => {
+    const selectedPeso = e.target.value;
+    setPeso(selectedPeso); // A opção selecionada será mostrada corretamente
+  };
+
+  // Função para lidar com a mudança na data de nascimento com a máscara aplicada
+  const handleDataChange = (e) => {
+    const dataComMascara = aplicarMascaraData(e.target.value);
+    setInf_DataNasc(dataComMascara);
+
+    // Valida a data de nascimento para não ser no futuro
+    if (dataComMascara.length === 10 && !validarDataNascimento(dataComMascara)) {
+      setErroData('A data de nascimento não pode ser no futuro.');
+    } else {
+      setErroData('');
+    }
+  };
 
   const handleSubmit = async () => {
+    // Verifica se a data de nascimento é válida antes de enviar
+    if (erroData) {
+      alert("Corrija a data de nascimento.");
+      return;
+    }
+
     try {
       const response = await api.post('/Info_Pet', {
         infRaca: vRaca,
@@ -48,11 +112,15 @@ const CadastroPet = () => {
         setInf_DataNasc('');
         setPeso('');
         setUser_Id('');
+
+        // Exibe o alerta de sucesso
+        alert("Cadastro do Pet realizado com sucesso!");
       } else {
         console.error('Formato de resposta inesperado:', novoPet);
       }
     } catch (error) {
       console.log('Erro ao cadastrar pet:', error);
+      alert("Ocorreu um erro ao cadastrar o Pet. Tente novamente.");
     }
   };
 
@@ -63,29 +131,76 @@ const CadastroPet = () => {
       </div>
       <div className="app-container">
         <div className="form-group1">
-          <label className="labelcadastrodopet">Raça</label>
-          <input type="text" value={vRaca} placeholder="Informe a Raça" onChange={(e) => setRaca(e.target.value)} />
-        </div>
-        <div className="form-group1">
           <label className="labelcadastrodopet">Espécie</label>
-          <input type="text" value={vEspecie} placeholder="Informe a Espécie" onChange={(e) => setEspecie(e.target.value)} />
+          <select value={vEspecie} onChange={handleEspecieChange} className="input-select">
+            <option value="">Selecione a Espécie</option>
+            <option value="Cão">Cão</option>
+            <option value="Gato">Gato</option>
+            <option value="Coelho">Coelho</option>
+            <option value="Pássaro">Pássaro</option>
+            {/* Adicione mais opções de espécies */}
+          </select>
         </div>
+
+        <div className="form-group1">
+          <label className="labelcadastrodopet">Raça</label>
+          <select value={vRaca} onChange={(e) => setRaca(e.target.value)} className="input-select" disabled={!vEspecie}>
+            <option value="">Selecione a Raça</option>
+            {vEspecie && racasPorEspecie[vEspecie]?.map((raca, index) => (
+              <option key={index} value={raca}>{raca}</option>
+            ))}
+          </select>
+        </div>
+
         <div className="form-group1">
           <label className="labelcadastrodopet">Cor</label>
-          <input type="text" value={vCor} placeholder="Informe a Cor" onChange={(e) => setCor(e.target.value)} />
+          <select value={vCor} onChange={(e) => setCor(e.target.value)} className="input-select">
+            <option value="">Selecione a Cor</option>
+            <option value="Branco">Branco</option>
+            <option value="Preto">Preto</option>
+            <option value="Marrom">Marrom</option>
+            <option value="Cinza">Cinza</option>
+            {/* Adicione mais opções de cores */}
+          </select>
         </div>
+
         <div className="form-group1">
           <label className="labelcadastrodopet">Data de Nascimento</label>
-          <input type="text" value={vInf_DataNasc} placeholder="Informe a Data de Nascimento" onChange={(e) => setInf_DataNasc(e.target.value)} />
+          <input
+            type="text"
+            value={vInf_DataNasc}
+            placeholder="DD/MM/AAAA"
+            onChange={handleDataChange}
+            maxLength={10} // Limita a entrada de caracteres a 10 (formato DD/MM/YYYY)
+            className="input-text"
+          />
+          {erroData && <span className="erro-data">{erroData}</span>}
         </div>
+
         <div className="form-group1">
           <label className="labelcadastrodopet">Peso</label>
-          <input type="text" value={vPeso} placeholder="Informe o Peso" onChange={(e) => setPeso(e.target.value)} />
+          <select value={vPeso} onChange={handlePesoChange} className="input-select">
+            <option value="">Selecione o Peso</option>
+            <option value="1-5kg">1-5kg</option>
+            <option value="6-10kg">6-10kg</option>
+            <option value="11-20kg">11-20kg</option>
+            <option value="21-30kg">21-30kg</option>
+            <option value="31kg+">31kg+</option>
+            {/* Adicione mais opções de peso */}
+          </select>
         </div>
+
         <div className="form-group1">
           <label className="labelcadastrodopet">ID do Usuário</label>
-          <input type="text" value={vId} placeholder="Informe o ID do Usuário" onChange={(e) => setUser_Id(e.target.value)} />
+          <input
+            type="text"
+            value={vId}
+            placeholder="Informe o ID do Usuário"
+            onChange={(e) => setUser_Id(e.target.value)}
+            className="input-text"
+          />
         </div>
+
         <div className="form-group1">
           <button onClick={handleSubmit}>Criar Cadastro do Pet</button>
         </div>
@@ -96,6 +211,7 @@ const CadastroPet = () => {
 };
 
 export default CadastroPet;
+
 
 
 

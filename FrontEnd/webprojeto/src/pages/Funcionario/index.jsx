@@ -88,7 +88,7 @@ const Funcionario = () => {
 </div>
 <div className="form-group">
 <label className="label">Gênero</label> <br />
-<select className="genero" value={vgenero} onChange={(e) => setGenero(e.target.value)}>
+<select className="generofuncionario" value={vgenero} onChange={(e) => setGenero(e.target.value)}>
 <option value="">Selecione</option>
 <option value="Masculino">Masculino</option>
 <option value="Feminino">Feminino</option>

@@ -38,17 +38,6 @@ label {
    margin-bottom: 5px; /* Pequeno espaço entre o label e o input */
    text-align: center;
 }
-.input-text,
-.input-select {
-  width: 250px;
-  padding: 10px;
-  margin: 5px 0;
-  box-sizing: border-box; /* Para garantir que a largura seja respeitada */
-  font-size: 16px;
-}
-
-
-
 button {
    padding: 10px 20px; /* Ajusta o espaçamento interno do botão */
    background-color: #007BFF;

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './usuario.css';
 import Rodape from '../Rodape';
 import api from "../../services/api";
@@ -13,10 +13,38 @@ const Usuario = () => {
   const [vgenero, setGenero] = useState('');
   const [errors, setErrors] = useState({});
   const [cadastroConfirmado, setCadastroConfirmado] = useState(false);
+  const [mensagemConfirmacao, setMensagemConfirmacao] = useState(''); // Estado para a mensagem
   const navigate = useNavigate();
+
+  // Função para calcular a idade com base na data de nascimento
+  const calculateAge = (birthDate) => {
+    const birth = new Date(birthDate.split('/').reverse().join('-')); // Converte para o formato YYYY-MM-DD
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const month = today.getMonth();
+    if (month < birth.getMonth() || (month === birth.getMonth() && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  // Função para validar a data de nascimento (verifica se é uma data válida)
+  const isValidDate = (dateString) => {
+    const dateParts = dateString.split('/');
+    if (dateParts.length !== 3) return false;
+    
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10);
+    const year = parseInt(dateParts[2], 10);
+
+    const date = new Date(year, month - 1, day); // O mês em JavaScript começa do 0
+    return date.getDate() === day && date.getMonth() + 1 === month && date.getFullYear() === year;
+  };
 
   const handleSubmit = async () => {
     const newErrors = {};
+
+    // Verificação de campos obrigatórios
     if (!vnome) newErrors.nome = "Nome é obrigatório.";
     if (!vemail) newErrors.email = "Email é obrigatório.";
     if (!vnasc) newErrors.nasc = "Data de Nascimento é obrigatória.";
@@ -28,7 +56,26 @@ const Usuario = () => {
     if (vnome && !/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(vnome)) {
       newErrors.nome = "O nome deve conter apenas letras.";
     }
+
+    // Validação de data de nascimento e idade
+    if (!isValidDate(vnasc)) {
+      newErrors.nasc = "Data de nascimento inválida. Por favor, insira uma data válida no formato DD/MM/AAAA.";
+    } else {
+      const age = calculateAge(vnasc);
+      if (age < 18) {
+        newErrors.idade = "Você precisa ter 18 anos ou mais para se cadastrar.";
+      }
+    }
+
+    // Validação da senha (mínimo de 8 caracteres, uma letra maiúscula e um caractere especial)
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+    if (!passwordRegex.test(vsenha)) {
+      newErrors.senha = "A senha deve ter pelo menos 8 caracteres, uma letra maiúscula e um caractere especial.";
+    }
+
     setErrors(newErrors);
+
+    // Se houver erros, não envia o formulário
     if (Object.keys(newErrors).length > 0) return;
 
     try {
@@ -42,7 +89,7 @@ const Usuario = () => {
       console.log(response.data);
       setCadastroConfirmado(true);
 
-      // Adiciona o novo usuário à lista, usando as chaves corretas
+      // Adicionando o novo usuário
       const novoUsuario = {
         userName: vnome,
         userEmail: vemail,
@@ -50,23 +97,22 @@ const Usuario = () => {
         genero: vgenero
       };
 
-      // Carrega os usuários existentes do localStorage
       const storedUsuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-      // Atualiza a lista de usuários
       storedUsuarios.push(novoUsuario);
       localStorage.setItem('usuarios', JSON.stringify(storedUsuarios));
 
-      // Limpa os campos do formulário
+      // Resetando os campos após cadastro
       setNome('');
       setSenha('');
       setEmail('');
       setNasc('');
       setGenero('');
       setErrors({});
-      setTimeout(() => {
-        setCadastroConfirmado(false);
-        navigate('/login');
-      }, 2000);
+
+      // Exibindo a mensagem de confirmação
+      setMensagemConfirmacao("Cadastro confirmado. Em até 15 minutos, enviaremos uma mensagem para o seu e-mail contendo o seu respectivo ID ou token, bem como o ID do seu pet.  Caso seja feito um cadastro de pet ou agendamento com outro ID será cancelado imediatamente. Agradecemos pelo seu cadastro e confiança em nossos serviços.");
+
+      // O modal agora permanecerá até ser fechado manualmente
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +124,16 @@ const Usuario = () => {
         <h1 className="h1">FAÇA SEU CADASTRO</h1>
       </div>
 
-      {cadastroConfirmado && <p className="confirmation-message">Cadastro confirmado!</p>}
+      {/* Modal de confirmação */}
+      {cadastroConfirmado && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Cadastro Confirmado!</h2>
+            <p>{mensagemConfirmacao}</p>
+            <button onClick={() => setCadastroConfirmado(false)}>Fechar</button>
+          </div>
+        </div>
+      )}
 
       <div className="DivCadastro">
         <label className="labelCadastro">Nome</label> <br />
@@ -101,6 +156,7 @@ const Usuario = () => {
           onChange={(e) => setNasc(e.target.value)}
         />
         {errors.nasc && <p className="error">{errors.nasc}</p>}
+        {errors.idade && <p className="error">{errors.idade}</p>} {/* Exibindo erro de idade */}
       </div>
 
       <div className="DivCadastro">
@@ -125,13 +181,13 @@ const Usuario = () => {
       </div>
 
       <br /><Rodape />
-    </div>  
+    </div>
   );
 };
 
 export default Usuario;
 
-                                  
+
 
  
  

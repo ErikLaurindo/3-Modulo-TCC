@@ -123,6 +123,11 @@ public class User {
 		return "User [userId=" + userId + ", userName=" + userName + ", userSenha=" + userSenha + ", userEmail="
 				+ userEmail + ", userNasc=" + userNasc + ", userGenero=" + userGenero + "]";
 	}
+
+	public boolean isAdmin() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	//Método construtor padrão, isto é, sem parâmetros
 	

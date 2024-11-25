@@ -36,14 +36,14 @@ const Carrossel = () => {
       <div  >
         <div className='profu' > <img src={imagem}  />    
          <h1>Décio Malta</h1>
-         <h2 > "Com este app de pets, você pode acompanhar ao vivo os exames e consultas do seu animalzinho. Agora, você pode ver em tempo real o momento exato em que seu gato percebe que a balança do veterinário não é uma cama nova e confortável. Drama garantido!"</h2></div>
+         <h2 > "Com este app de pets, você pode acompanhar  os exames e consultas do seu animalzinho. "</h2></div>
         </div>
 
 
         <div  >
         <div className='profu' > <img src={imagem3}  />    
          <h1>Antonio Luis Barboza</h1>
-         <h2 > "Imagine um app de pets onde você pode agendar uma consulta e assistir ao vivo seu cachorro tentando convencer o veterinário de que o termômetro na verdade é um palito de sorvete gigante. Finalmente, uma maneira de ficar nervoso e rir ao mesmo tempo!"</h2></div>
+         <h2 > "Imagine um app de pets onde você pode agendar uma consulta , ter uma analise do seu pet completa."</h2></div>
         </div>
        
       </Slider>
